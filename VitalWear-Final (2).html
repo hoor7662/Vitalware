@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalWear - Neonatal Monitoring Suit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root{--primary-dark:#0a1628;--primary-blue:#1a2a4a;--accent-teal:#26a69a;--accent-orange:#ff9800;--accent-red:#f44336;--accent-purple:#7c4dff;--green-stable:#4caf50;--text-gray:#b0bec5;--bg-main:#e8ecf0;--bg-card:#ffffff;--text-dark:#1a2a4a;--text-secondary:#666;--border-color:#e0e0e0;--table-header:#1a2a4a;--table-hover:#f5f7fa}
+        body.dark-mode{--bg-main:#0d1117;--bg-card:#161b22;--text-dark:#e6edf3;--text-secondary:#8b949e;--border-color:#30363d;--table-header:#21262d;--table-hover:#1c2128}
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{font-size:14px}
+        body{font-family:'Poppins',sans-serif;font-size:1rem;background:var(--bg-main);color:var(--text-dark);min-height:100vh;transition:background 0.3s,color 0.3s}
+        .login-container{min-height:100vh;display:flex;background:linear-gradient(135deg,#0f1a2e,#1a2a4a)}
+        .login-left{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:40px}
+        .logo-circle{width:160px;height:160px;background:rgba(255,255,255,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:25px;border:2px solid rgba(255,255,255,0.15)}
+        .logo-circle svg{width:100px;height:100px}
+        .login-left h1{font-size:2.5rem;color:white;margin-bottom:8px}
+        .login-left .tagline{font-size:0.8rem;color:var(--text-gray);letter-spacing:3px;margin-bottom:25px}
+        .login-left .description{max-width:380px;text-align:center;color:var(--text-gray);font-size:0.9rem;line-height:1.6}
+        .login-right{flex:1;display:flex;align-items:center;justify-content:center;padding:40px;background:white}
+        .login-form{width:100%;max-width:420px}
+        .user-type-selector{display:flex;gap:15px;margin-bottom:25px}
+        .user-type-btn{flex:1;padding:18px;border:2px solid #e0e0e0;background:white;border-radius:12px;cursor:pointer;text-align:center;color:#666;transition:all 0.3s}
+        .user-type-btn.active{border-color:var(--primary-blue);background:var(--primary-blue);color:white}
+        .user-type-btn i{display:block;font-size:1.6rem;margin-bottom:6px}
+        .input-group{margin-bottom:18px}
+        .input-group label{display:block;color:#333;font-weight:500;margin-bottom:8px;font-size:0.9rem}
+        .input-wrapper{position:relative}
+        .input-wrapper i.input-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:#999}
+        .input-wrapper input{width:100%;padding:14px 16px 14px 45px;border:2px solid #e0e0e0;border-radius:10px;font-size:0.95rem;font-family:'Poppins',sans-serif}
+        .input-wrapper input:focus{outline:none;border-color:var(--primary-blue)}
+        .input-wrapper .toggle-password{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:#999;cursor:pointer}
+        .remember-forgot{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;font-size:0.85rem}
+        .remember-forgot a{color:var(--primary-blue);text-decoration:none}
+        .login-btn{width:100%;padding:14px;background:var(--primary-blue);color:white;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+        .login-btn:hover{background:#0f1a2e}
+        .dashboard-container{display:none;min-height:100vh}
+        .sidebar{position:fixed;left:0;top:0;width:220px;height:100vh;background:linear-gradient(180deg,#0f1a2e,#1a2a4a);padding:15px 0;z-index:100}
+        .sidebar-logo{display:flex;align-items:center;padding:12px 18px;margin-bottom:25px;gap:10px}
+        .sidebar-logo svg{width:35px;height:35px}
+        .sidebar-logo .brand-name{font-size:1.2rem;font-weight:600;color:white}
+        .sidebar-logo .brand-name span{color:var(--accent-teal)}
+        .nav-menu{list-style:none;padding:0 12px}
+        .nav-item{margin-bottom:4px}
+        .nav-link{display:flex;align-items:center;padding:12px 18px;color:var(--text-gray);text-decoration:none;border-radius:10px;font-weight:500;font-size:0.9rem;transition:all 0.3s}
+        .nav-link:hover,.nav-link.active{background:rgba(38,166,154,0.2);color:white}
+        .nav-link.active{background:var(--accent-teal)}
+        .nav-link i{width:22px;margin-right:10px}
+        .main-content{margin-left:220px;min-height:100vh;background:var(--bg-main);transition:all 0.3s}
+        .top-header{background:var(--bg-card);padding:12px 25px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.05);gap:15px;flex-wrap:wrap}
+        .page-title{font-size:1.2rem;font-weight:600;color:var(--text-dark)}
+        .search-container{flex:1;max-width:350px;position:relative}
+        .search-box{display:flex;align-items:center;background:var(--bg-main);border:2px solid var(--border-color);border-radius:10px;padding:4px 4px 4px 12px}
+        .search-box input{flex:1;border:none;background:transparent;padding:8px;font-size:0.9rem;color:var(--text-dark)}
+        .search-box input:focus{outline:none}
+        .search-btn{background:var(--primary-blue);color:white;border:none;width:36px;height:36px;border-radius:8px;cursor:pointer}
+        .search-results{position:absolute;top:100%;left:0;right:0;background:var(--bg-card);border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,0.15);margin-top:8px;display:none;z-index:1000;max-height:350px;overflow-y:auto}
+        .search-results.show{display:block}
+        .search-result-item{padding:12px 15px;display:flex;align-items:center;gap:12px;cursor:pointer;border-bottom:1px solid var(--border-color)}
+        .search-result-item:hover{background:var(--table-hover)}
+        .header-actions{display:flex;align-items:center;gap:12px}
+        .header-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:var(--text-dark);cursor:pointer;border-radius:8px;background:var(--bg-main);position:relative}
+        .header-icon:hover{background:var(--accent-teal);color:white}
+        .notification-dot{position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--accent-red);border-radius:50%}
+        .user-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent-teal),var(--accent-purple));display:flex;align-items:center;justify-content:center;color:white;font-weight:600;font-size:0.85rem}
+        .dashboard-content{padding:20px 25px 50px}
+        .section-title{font-size:1.1rem;font-weight:600;color:var(--text-dark);margin-bottom:15px;display:flex;align-items:center;gap:8px}
+        .patient-search-section{background:var(--bg-card);border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 3px 15px rgba(0,0,0,0.05)}
+        .patient-search-section h3{font-size:1rem;color:var(--text-dark);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .patient-search-section h3 i{color:var(--accent-teal)}
+        .patient-id-input{display:flex;gap:12px;margin-bottom:15px}
+        .patient-id-input input{flex:1;padding:12px 15px;border:2px solid var(--border-color);border-radius:10px;font-size:0.95rem;background:var(--bg-main);color:var(--text-dark)}
+        .patient-id-input input:focus{outline:none;border-color:var(--accent-teal)}
+        .patient-id-input button{padding:12px 25px;background:var(--accent-teal);color:white;border:none;border-radius:10px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px}
+        .patient-result-box{display:none}
+        .patient-result-box.show{display:block}
+        .patient-result-header{display:flex;align-items:center;gap:15px;padding:15px;background:linear-gradient(135deg,var(--primary-blue),#0f1a2e);border-radius:10px;color:white;margin-bottom:15px}
+        .patient-result-header .avatar{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+        .patient-result-header h4{font-size:1.1rem;margin-bottom:3px}
+        .patient-result-header p{opacity:0.8;font-size:0.85rem}
+        .patient-result-vitals{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}
+        .vital-result-card{padding:15px;border-radius:10px;text-align:center;color:white}
+        .vital-result-card.hr{background:linear-gradient(135deg,#f44336,#d32f2f)}
+        .vital-result-card.spo2{background:linear-gradient(135deg,#26a69a,#00897b)}
+        .vital-result-card.rr{background:linear-gradient(135deg,#7c4dff,#651fff)}
+        .vital-result-card.ecg{background:linear-gradient(135deg,#ff9800,#f57c00)}
+        .vital-result-card .label{font-size:0.75rem;opacity:0.9;margin-bottom:4px}
+        .vital-result-card .value{font-size:1.3rem;font-weight:700}
+        .patient-result-chart{background:var(--primary-blue);border-radius:10px;padding:15px}
+        .patient-result-chart h4{color:white;margin-bottom:12px;font-size:0.9rem}
+        .mini-chart{height:180px}
+        .alerts-grid-2x2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px}
+        .alert-card-mini{background:var(--bg-card);border-radius:10px;padding:15px;display:flex;align-items:center;gap:12px}
+        .alert-card-mini.critical{border-left:4px solid var(--accent-red)}
+        .alert-card-mini.warning{border-left:4px solid var(--accent-orange)}
+        .alert-card-mini.stable{border-left:4px solid var(--green-stable)}
+        .alert-card-mini .alert-icon-mini{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+        .alert-card-mini.critical .alert-icon-mini{background:rgba(244,67,54,0.15);color:var(--accent-red)}
+        .alert-card-mini.warning .alert-icon-mini{background:rgba(255,152,0,0.15);color:var(--accent-orange)}
+        .alert-card-mini.stable .alert-icon-mini{background:rgba(76,175,80,0.15);color:var(--green-stable)}
+        .alert-card-mini .alert-text h5{font-size:0.85rem;color:var(--text-dark);margin-bottom:2px}
+        .alert-card-mini .alert-text p{font-size:0.75rem;color:var(--text-secondary)}
+        .vitals-row{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:20px}
+        .vital-card{padding:20px 15px;border-radius:14px;color:white;position:relative;overflow:hidden}
+        .vital-card.hr{background:linear-gradient(135deg,#f44336,#d32f2f)}
+        .vital-card.spo2{background:linear-gradient(135deg,#26a69a,#00897b)}
+        .vital-card.rr{background:linear-gradient(135deg,#7c4dff,#651fff)}
+        .vital-card.ecg{background:linear-gradient(135deg,#ff9800,#f57c00)}
+        .vital-card .vital-label{font-size:0.8rem;opacity:0.9;margin-bottom:6px}
+        .vital-card .vital-value{font-size:1.8rem;font-weight:700}
+        .vital-card .vital-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:2rem;opacity:0.3}
+        .patient-detail-section{background:var(--bg-card);border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 3px 15px rgba(0,0,0,0.05)}
+        .patient-header{display:flex;align-items:center;gap:15px;margin-bottom:20px;padding-bottom:15px;border-bottom:1px solid var(--border-color)}
+        .patient-avatar-large{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent-teal),var(--accent-purple));display:flex;align-items:center;justify-content:center;color:white;font-size:1.5rem}
+        .patient-header-info h2{font-size:1.2rem;color:var(--text-dark);margin-bottom:4px}
+        .patient-header-info p{color:var(--text-secondary);font-size:0.8rem}
+        .patient-info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}
+        .patient-info-item{background:var(--bg-main);padding:12px;border-radius:10px;text-align:center}
+        .patient-info-item label{font-size:0.65rem;color:var(--text-secondary);display:block;margin-bottom:4px;text-transform:uppercase}
+        .patient-info-item span{font-size:0.95rem;font-weight:600;color:var(--text-dark)}
+        .patient-vitals-mini{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+        .vital-mini{padding:15px;border-radius:10px;text-align:center;color:white}
+        .vital-mini.hr{background:linear-gradient(135deg,#f44336,#d32f2f)}
+        .vital-mini.spo2{background:linear-gradient(135deg,#26a69a,#00897b)}
+        .vital-mini.rr{background:linear-gradient(135deg,#7c4dff,#651fff)}
+        .vital-mini.ecg{background:linear-gradient(135deg,#ff9800,#f57c00)}
+        .vital-mini .vital-mini-label{font-size:0.65rem;opacity:0.9;margin-bottom:4px}
+        .vital-mini .vital-mini-value{font-size:1.2rem;font-weight:700}
+        .readings-section{margin-bottom:20px}
+        .readings-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:10px}
+        .readings-header h3{font-size:0.95rem;color:var(--text-dark);display:flex;align-items:center;gap:8px}
+        .readings-header h3 i{color:var(--accent-teal)}
+        .time-filter{display:flex;gap:8px}
+        .time-filter button{padding:6px 14px;border:2px solid var(--border-color);background:var(--bg-card);color:var(--text-dark);border-radius:6px;cursor:pointer;font-size:0.8rem;transition:all 0.3s}
+        .time-filter button.active{background:var(--accent-teal);color:white;border-color:var(--accent-teal)}
+        .readings-table-container{max-height:250px;overflow-y:auto;border-radius:10px;border:1px solid var(--border-color)}
+        .readings-table{width:100%;border-collapse:collapse}
+        .readings-table th{background:var(--table-header);color:white;padding:10px 12px;text-align:left;font-size:0.75rem;position:sticky;top:0}
+        .readings-table td{padding:10px 12px;border-bottom:1px solid var(--border-color);font-size:0.8rem;color:var(--text-dark)}
+        .readings-table tr:hover{background:var(--table-hover)}
+        .history-chart-section h3{font-size:0.95rem;color:var(--text-dark);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .history-chart-section h3 i{color:var(--accent-teal)}
+        .chart-card{background:var(--primary-blue);border-radius:10px;padding:15px}
+        .chart-container{height:250px}
+        .chart-legend{display:flex;gap:15px;margin-top:12px;flex-wrap:wrap}
+        .chart-legend-item{display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--text-secondary)}
+        .chart-legend-item .legend-color{width:10px;height:10px;border-radius:2px}
+        .add-patient-btn{display:flex;align-items:center;gap:8px;background:var(--accent-teal);color:white;padding:10px 20px;border-radius:10px;border:none;font-size:0.9rem;font-weight:600;cursor:pointer}
+        .section-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;flex-wrap:wrap;gap:10px}
+        .data-table{background:var(--bg-card);border-radius:14px;overflow:hidden;width:100%;border-collapse:collapse}
+        .data-table th{background:var(--table-header);color:white;padding:12px 15px;text-align:left;font-size:0.8rem}
+        .data-table td{padding:12px 15px;border-bottom:1px solid var(--border-color);color:var(--text-dark);font-size:0.8rem}
+        .data-table tr:hover{background:var(--table-hover)}
+        .data-table tr{cursor:pointer}
+        .status-badge{padding:4px 10px;border-radius:15px;font-size:0.7rem;font-weight:600}
+        .status-badge.stable{background:rgba(76,175,80,0.15);color:#4caf50}
+        .status-badge.unstable{background:rgba(255,152,0,0.15);color:#ff9800}
+        .status-badge.critical{background:rgba(244,67,54,0.15);color:#f44336}
+        .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center}
+        .modal.show{display:flex}
+        .modal-content{background:var(--bg-card);border-radius:16px;width:90%;max-width:450px;overflow:hidden}
+        .modal-header{background:linear-gradient(135deg,#1a2a4a,#0f1a2e);color:white;padding:20px;display:flex;justify-content:space-between;align-items:center}
+        .modal-header h2{font-size:1.1rem}
+        .modal-header .close-btn{background:rgba(255,255,255,0.2);border:none;color:white;width:35px;height:35px;border-radius:50%;cursor:pointer}
+        .modal-body{padding:25px}
+        .modal-body .input-group label{color:var(--text-dark)}
+        .modal-body .input-group input,.modal-body .input-group select{width:100%;padding:12px 15px;border:2px solid var(--border-color);border-radius:10px;font-size:0.95rem;background:var(--bg-main);color:var(--text-dark)}
+        .modal-footer{padding:15px 25px;border-top:1px solid var(--border-color);display:flex;gap:12px;justify-content:flex-end}
+        .btn-cancel{padding:10px 20px;border:2px solid var(--border-color);background:var(--bg-card);border-radius:8px;cursor:pointer;color:var(--text-dark)}
+        .btn-save{padding:10px 20px;background:var(--accent-teal);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:500}
+        .dropdown-wrapper{position:relative}
+        .dropdown-menu{position:absolute;top:45px;right:0;background:var(--bg-card);border-radius:10px;box-shadow:0 10px 40px rgba(0,0,0,0.15);min-width:220px;display:none;z-index:1000}
+        .dropdown-menu.show{display:block}
+        .dropdown-header{padding:12px 15px;border-bottom:1px solid var(--border-color);font-weight:600;color:var(--text-dark);font-size:0.9rem}
+        .dropdown-item{padding:10px 15px;display:flex;align-items:center;gap:10px;cursor:pointer;color:var(--text-dark);font-size:0.85rem}
+        .dropdown-item:hover{background:var(--table-hover)}
+        .dropdown-item i{color:var(--accent-teal);width:18px}
+        .dropdown-item.danger{color:var(--accent-red)}
+        .dropdown-item.danger i{color:var(--accent-red)}
+        .notification-item{padding:12px 15px;border-bottom:1px solid var(--border-color);cursor:pointer}
+        .notification-item:hover{background:var(--table-hover)}
+        .notification-item h5{font-size:0.8rem;color:var(--text-dark);margin-bottom:2px}
+        .notification-item p{font-size:0.7rem;color:var(--text-secondary)}
+        .page{display:none}
+        .page.active{display:block}
+        .alerts-list{display:flex;flex-direction:column;gap:12px}
+        .alert-card{background:var(--bg-card);border-radius:10px;padding:15px;display:flex;align-items:center;gap:15px}
+        .alert-card.critical{border-left:4px solid var(--accent-red)}
+        .alert-card.warning{border-left:4px solid var(--accent-orange)}
+        .alert-card.info{border-left:4px solid var(--green-stable)}
+        .alert-icon{width:45px;height:45px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+        .alert-card.critical .alert-icon{background:rgba(244,67,54,0.15);color:var(--accent-red)}
+        .alert-card.warning .alert-icon{background:rgba(255,152,0,0.15);color:var(--accent-orange)}
+        .alert-card.info .alert-icon{background:rgba(76,175,80,0.15);color:var(--green-stable)}
+        .alert-content h4{font-size:0.9rem;color:var(--text-dark);margin-bottom:4px}
+        .alert-content p{font-size:0.75rem;color:var(--text-secondary)}
+        .alert-time{color:var(--text-secondary);font-size:0.75rem}
+        .settings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+        .settings-card{background:var(--bg-card);border-radius:14px;padding:20px}
+        .settings-card h3{font-size:0.95rem;color:var(--text-dark);margin-bottom:15px;display:flex;align-items:center;gap:8px}
+        .settings-card h3 i{color:var(--accent-teal)}
+        .setting-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border-color)}
+        .setting-item:last-child{border-bottom:none}
+        .setting-info h4{font-size:0.85rem;color:var(--text-dark);margin-bottom:2px}
+        .setting-info p{font-size:0.7rem;color:var(--text-secondary)}
+        .toggle-switch{position:relative;width:46px;height:24px}
+        .toggle-switch input{opacity:0;width:0;height:0}
+        .toggle-slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:0.4s;border-radius:24px}
+        .toggle-slider:before{position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;background-color:white;transition:0.4s;border-radius:50%}
+        .toggle-switch input:checked+.toggle-slider{background-color:var(--accent-teal)}
+        .toggle-switch input:checked+.toggle-slider:before{transform:translateX(22px)}
+        .logout-btn{background:var(--accent-red);color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:0.8rem}
+        .lang-select{padding:8px 12px;border-radius:6px;border:1px solid var(--border-color);background:var(--bg-main);color:var(--text-dark);font-size:0.85rem}
+        .about-hero{background:linear-gradient(135deg,#1a2a4a,#0f1a2e);border-radius:14px;padding:35px;text-align:center;color:white;margin-bottom:20px}
+        .about-hero h1{font-size:1.8rem;margin-bottom:5px}
+        .about-hero h1 span{color:var(--accent-teal)}
+        .about-hero .tagline{color:var(--text-gray);letter-spacing:2px;font-size:0.7rem;margin-bottom:12px}
+        .about-hero p{max-width:500px;margin:0 auto;color:var(--text-gray);line-height:1.5;font-size:0.85rem}
+        .about-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-bottom:20px}
+        .about-card{background:var(--bg-card);border-radius:14px;padding:20px;text-align:center}
+        .about-card .icon{width:50px;height:50px;background:linear-gradient(135deg,var(--accent-teal),#00897b);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.3rem;color:white}
+        .about-card h3{font-size:0.95rem;color:var(--text-dark);margin-bottom:6px}
+        .about-card p{color:var(--text-secondary);font-size:0.75rem;line-height:1.4}
+        .team-section{background:var(--bg-card);border-radius:14px;padding:25px}
+        .team-section h2{text-align:center;color:var(--text-dark);margin-bottom:20px;font-size:1.1rem}
+        .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+        .team-member{text-align:center}
+        .team-member .avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--accent-teal),var(--accent-purple));display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:1.3rem;color:white}
+        .team-member h4{font-size:0.85rem;color:var(--text-dark);margin-bottom:2px}
+        .team-member p{color:var(--text-secondary);font-size:0.7rem}
+        @media(max-width:1200px){.vitals-row,.patient-vitals-mini,.patient-info-grid,.patient-result-vitals{grid-template-columns:repeat(2,1fr)}.alerts-grid-2x2{grid-template-columns:1fr}}
+        @media(max-width:992px){.login-container{flex-direction:column}.sidebar{width:60px}.sidebar-logo .brand-text,.nav-link span{display:none}.nav-link{justify-content:center;padding:12px}.nav-link i{margin-right:0}.main-content{margin-left:60px}.about-grid,.team-grid,.settings-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+    <div class="login-container" id="loginPage">
+        <div class="login-left">
+            <div class="logo-circle"><svg viewBox="0 0 120 100" fill="none"><ellipse cx="45" cy="50" rx="38" ry="42" stroke="white" stroke-width="2.5" fill="none"/><ellipse cx="58" cy="30" rx="12" ry="11" stroke="white" stroke-width="2.5" fill="none"/><path d="M48 38 Q32 45,28 58 Q25 72,35 80 Q45 86,55 78" stroke="white" stroke-width="2.5" fill="none"/><path d="M78 18 Q95 30,90 50 Q85 70,68 82" stroke="white" stroke-width="2.5" fill="none"/><path d="M62 50 L67 50 L70 44 L73 56 L76 47 L79 50 L84 50" stroke="white" stroke-width="2" fill="none"/><path d="M80 38 Q82 34,86 36 Q90 38,86 44 L80 50 L74 44 Q70 38,74 36 Q78 34,80 38" fill="white"/></svg></div>
+            <h1>VitalWear</h1>
+            <div class="tagline">NEONATAL MONITORING SUIT</div>
+            <p class="description" id="loginDesc">Advanced wearable monitoring technology for healthcare professionals dedicated to neonatal intensive care.</p>
+        </div>
+        <div class="login-right">
+            <div class="login-form">
+                <div class="user-type-selector">
+                    <div class="user-type-btn active" onclick="selectUserType(this,'staff')"><i class="fas fa-user-md"></i><span id="doctorLabel">Doctor</span></div>
+                    <div class="user-type-btn" onclick="selectUserType(this,'staff')"><i class="fas fa-user-nurse"></i><span id="nurseLabel">Nurse</span></div>
+                    <div class="user-type-btn" onclick="selectUserType(this,'parent')"><i class="fas fa-heart"></i><span>Parent</span></div>
+                </div>
+                <!-- Staff login fields -->
+                <div id="staffFields">
+                <div class="input-group"><label id="usernameLabel">Username / Employee ID</label><div class="input-wrapper"><i class="fas fa-user input-icon"></i><input type="text" id="username" placeholder="Enter your username"></div></div>
+                <div class="input-group"><label id="passwordLabel">Password</label><div class="input-wrapper"><i class="fas fa-lock input-icon"></i><input type="password" id="password" placeholder="Enter your password"><i class="fas fa-eye toggle-password" onclick="togglePassword()"></i></div></div>
+                <div class="input-group"><label id="babyIdLabel">Baby ID (Patient Identifier)</label><div class="input-wrapper"><i class="fas fa-id-card input-icon"></i><input type="text" id="babyId" placeholder="e.g., NEO-2024-001"></div></div>
+                <div class="remember-forgot"><label><input type="checkbox"> <span id="rememberLabel">Remember me</span></label><a href="#" id="forgotLabel">Forgot password?</a></div>
+                <button class="login-btn" onclick="login()"><i class="fas fa-sign-in-alt"></i><span id="signInLabel">Sign In</span></button>
+                </div>
+                <!-- Parent login fields -->
+                <div id="parentFields" style="display:none">
+                <div style="background:rgba(38,166,154,0.08);border:1px solid rgba(38,166,154,0.25);border-radius:10px;padding:12px 15px;margin-bottom:18px;display:flex;align-items:center;gap:10px">
+                    <i class="fas fa-heart" style="color:var(--accent-teal)"></i>
+                    <p style="font-size:0.82rem;color:#555;line-height:1.4">Welcome, parents. Enter your baby's ID and your family access code to view real-time health updates.</p>
+                </div>
+                <div class="input-group"><label>Parent Name</label><div class="input-wrapper"><i class="fas fa-user input-icon"></i><input type="text" id="parentName" placeholder="e.g., Ahmed Al-Zahrani"></div></div>
+                <div class="input-group"><label>Baby ID</label><div class="input-wrapper"><i class="fas fa-baby input-icon"></i><input type="text" id="parentBabyId" placeholder="e.g., NEO-2026-001"></div></div>
+                <div class="input-group"><label>Family Access Code</label><div class="input-wrapper"><i class="fas fa-lock input-icon"></i><input type="password" id="parentCode" placeholder="Enter your access code"><i class="fas fa-eye toggle-password" onclick="toggleParentPassword()"></i></div></div>
+                <div class="remember-forgot"><label><input type="checkbox"> <span>Remember me</span></label><a href="#" style="color:var(--primary-blue)">Need help?</a></div>
+                <button class="login-btn" onclick="parentLogin()" style="background:linear-gradient(135deg,var(--accent-teal),#00897b)"><i class="fas fa-heart"></i><span>Enter Parent Portal</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-container" id="dashboardPage">
+        <nav class="sidebar">
+            <div class="sidebar-logo"><svg viewBox="0 0 50 50" fill="none"><ellipse cx="22" cy="25" rx="15" ry="18" stroke="white" stroke-width="1.5" fill="none"/><circle cx="28" cy="18" r="7" stroke="white" stroke-width="1.5" fill="none"/><path d="M38 12 Q45 20,42 32 Q39 42,28 46" stroke="rgba(38,166,154,0.8)" stroke-width="1.5" fill="none"/><path d="M30 28 L33 28 L35 24 L37 32 L39 26 L41 28 L44 28" stroke="white" stroke-width="1.2" fill="none"/></svg><div class="brand-text"><div class="brand-name">Vital<span>Wear</span></div></div></div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#" class="nav-link active" onclick="showPage('dashboard',this)"><i class="fas fa-home"></i><span class="nav-text" data-en="Dashboard" data-ar="لوحة التحكم">Dashboard</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="showPage('patients',this)"><i class="fas fa-user-friends"></i><span class="nav-text" data-en="Patients" data-ar="المرضى">Patients</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="showPage('alerts',this)"><i class="fas fa-bell"></i><span class="nav-text" data-en="Alerts" data-ar="التنبيهات">Alerts</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="showPage('settings',this)"><i class="fas fa-cog"></i><span class="nav-text" data-en="Settings" data-ar="الإعدادات">Settings</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" onclick="showPage('about',this)"><i class="fas fa-info-circle"></i><span class="nav-text" data-en="About" data-ar="حول">About</span></a></li>
+            </ul>
+        </nav>
+        <main class="main-content">
+            <div class="top-header">
+                <div class="page-title" id="pageTitle">Dashboard</div>
+                <div class="search-container">
+                    <div class="search-box"><i class="fas fa-search" style="color:var(--text-secondary);margin-right:8px"></i><input type="text" id="patientSearch" placeholder="Search patient..." onkeyup="searchPatient()"><button class="search-btn" onclick="searchPatient()"><i class="fas fa-arrow-right"></i></button></div>
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+                <div class="header-actions">
+                    <div class="header-icon" onclick="toggleDarkMode()" title="Toggle Dark Mode"><i class="fas fa-moon" id="darkModeIcon"></i></div>
+                    <div class="dropdown-wrapper"><div class="header-icon" onclick="toggleDropdown('notifDropdown')"><i class="fas fa-bell"></i><div class="notification-dot"></div></div><div class="dropdown-menu" id="notifDropdown"><div class="dropdown-header" id="notifHeader">Notifications</div><div class="notification-item"><h5>Critical: Low SpO2</h5><p><span data-pname="0">الرضيع عبدالله</span> - 88%</p></div><div class="notification-item"><h5>Warning: HR Elevated</h5><p><span data-pname="1">الرضيعة نورة</span></p></div></div></div>
+                    <div class="dropdown-wrapper"><div class="header-icon" onclick="toggleDropdown('profileDropdown')"><i class="fas fa-user"></i></div><div class="dropdown-menu" id="profileDropdown"><div class="dropdown-header">Account</div><div class="dropdown-item" onclick="showPage('settings')"><i class="fas fa-cog"></i><span>Settings</span></div><div class="dropdown-item danger" onclick="logout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></div></div></div>
+                    <div class="user-avatar" id="userAvatar">DS</div>
+                </div>
+            </div>
+
+            <!-- Dashboard -->
+            <div class="dashboard-content page active" id="dashboardContent">
+
+                <!-- Current Vitals with integrated search -->
+                <div class="patient-search-section" style="margin-bottom:0;border-radius:14px 14px 0 0;border-bottom:2px solid var(--border-color)">
+                    <h3 style="margin-bottom:10px"><i class="fas fa-search"></i><span id="searchPatientTitle">Search Patient by ID</span></h3>
+                    <div class="patient-id-input" style="margin-bottom:0"><input type="text" id="dashboardPatientId" placeholder="Enter Patient ID (e.g., NEO-2026-001)"><button onclick="searchPatientById()"><i class="fas fa-search"></i><span id="searchBtnText">Search</span></button></div>
+                </div>
+
+                <div class="patient-search-section" style="border-radius:0 0 14px 14px;padding-top:15px;margin-bottom:20px">
+
+                    <!-- Placeholder shown before search -->
+                    <div id="dashPlaceholder" style="text-align:center;padding:40px 20px;color:var(--text-secondary)">
+                        <i class="fas fa-search" style="font-size:2.5rem;opacity:0.25;margin-bottom:14px;display:block"></i>
+                        <p style="font-size:0.9rem;font-weight:500">أدخل الرقم التعريفي للمريض لعرض المؤشرات الحيوية</p>
+                        <p style="font-size:0.75rem;margin-top:4px;opacity:0.7">Enter Patient ID to view vitals</p>
+                    </div>
+
+                    <!-- All data shown only after search -->
+                    <div id="dashPatientData" style="display:none">
+
+                        <!-- Patient header -->
+                        <div class="patient-result-box show" id="patientResultBox">
+                            <div class="patient-result-header" style="margin-bottom:15px"><div class="avatar"><i class="fas fa-baby"></i></div><div><h4 id="resultPatientName">—</h4><p id="resultPatientId">—</p></div></div>
+                        </div>
+
+                        <!-- Vitals -->
+                        <h2 class="section-title" style="margin-bottom:12px"><i class="fas fa-heartbeat" style="color:var(--accent-red)"></i><span id="currentVitalsTitle">Current Vitals</span></h2>
+                        <div class="vitals-row" style="margin-bottom:15px">
+                            <div class="vital-card hr"><div class="vital-label">Heart Rate</div><div class="vital-value" id="dashVitalHR">—</div><i class="fas fa-heartbeat vital-icon"></i></div>
+                            <div class="vital-card spo2"><div class="vital-label">SpO2</div><div class="vital-value" id="dashVitalSPO2">—</div><i class="fas fa-lungs vital-icon"></i></div>
+                            <div class="vital-card rr"><div class="vital-label">Resp. Rate</div><div class="vital-value" id="dashVitalRR">—</div><i class="fas fa-wind vital-icon"></i></div>
+                            <div class="vital-card ecg"><div class="vital-label">ECG</div><div class="vital-value" id="dashVitalECG">—</div><i class="fas fa-wave-square vital-icon"></i></div>
+                        </div>
+
+                        <!-- ECG Chart -->
+                        <div style="background:var(--primary-blue);border-radius:12px;padding:16px;margin-bottom:15px">
+                            <h4 style="color:white;font-size:0.9rem;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-wave-square" style="color:#ff9800"></i> <span id="resultChartTitle">ECG & Vital Signs Monitor</span> <span style="font-size:0.7rem;background:rgba(76,175,80,0.3);color:#4caf50;padding:2px 8px;border-radius:20px;margin-left:auto">● LIVE</span></h4>
+                            <div style="height:200px"><canvas id="dashboardPatientChart"></canvas></div>
+                            <div class="chart-legend" style="margin-top:10px">
+                                <div class="chart-legend-item"><div class="legend-color" style="background:#f44336"></div>HR</div>
+                                <div class="chart-legend-item"><div class="legend-color" style="background:#26a69a"></div>SpO2</div>
+                                <div class="chart-legend-item"><div class="legend-color" style="background:#7c4dff"></div>RR</div>
+                                <div class="chart-legend-item"><div class="legend-color" style="background:#ff9800"></div>ECG</div>
+                            </div>
+                        </div>
+
+                        <!-- Doctor Notes -->
+                        <div style="background:var(--bg-main);border-radius:12px;padding:16px;border-left:4px solid var(--accent-teal)">
+                            <h4 style="font-size:0.9rem;color:var(--text-dark);margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-stethoscope" style="color:var(--accent-teal)"></i> Doctor's Notes</h4>
+                            <div id="dashDoctorNotes">
+                                <div style="background:var(--bg-card);border-radius:10px;padding:14px;margin-bottom:10px;border:1px solid var(--border-color)">
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                                        <span style="font-weight:600;font-size:0.85rem;color:var(--text-dark)">Dr. Ahmed Al-Rashid</span>
+                                        <span style="font-size:0.7rem;color:var(--text-secondary);background:var(--bg-main);padding:2px 8px;border-radius:8px">Today, 09:30 AM</span>
+                                    </div>
+                                    <p style="font-size:0.8rem;color:var(--text-secondary);line-height:1.5">Patient showing signs of improvement. SpO2 stabilizing at 94%. Continue current O2 therapy, monitor for apnea episodes. Scheduled follow-up echocardiogram for tomorrow morning.</p>
+                                </div>
+                                <div style="background:var(--bg-card);border-radius:10px;padding:14px;border:1px solid var(--border-color)">
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+                                        <span style="font-weight:600;font-size:0.85rem;color:var(--text-dark)">Dr. Sara Al-Otaibi</span>
+                                        <span style="font-size:0.7rem;color:var(--text-secondary);background:var(--bg-main);padding:2px 8px;border-radius:8px">Yesterday, 06:15 PM</span>
+                                    </div>
+                                    <p style="font-size:0.8rem;color:var(--text-secondary);line-height:1.5">Bradycardia episode noted at 16:40. Responded well to tactile stimulation. Caffeine citrate dose adjusted. Parents counseled regarding NICU plan and expected duration of stay.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Recent Alerts (moved to bottom) -->
+                <h2 class="section-title"><i class="fas fa-exclamation-triangle" style="color:var(--accent-orange)"></i><span id="recentAlertsTitle">Recent Alerts</span></h2>
+                <div class="alerts-grid-2x2">
+                    <div class="alert-card-mini critical"><div class="alert-icon-mini"><i class="fas fa-lungs"></i></div><div class="alert-text"><h5>Critical: Low SpO2</h5><p><span data-pname="0">الرضيع عبدالله</span> - 88%</p></div></div>
+                    <div class="alert-card-mini critical"><div class="alert-icon-mini"><i class="fas fa-heartbeat"></i></div><div class="alert-text"><h5>Critical: Bradycardia</h5><p><span data-pname="0">الرضيع عبدالله</span> - 85 bpm</p></div></div>
+                    <div class="alert-card-mini warning"><div class="alert-icon-mini"><i class="fas fa-wind"></i></div><div class="alert-text"><h5>Warning: Tachypnea</h5><p><span data-pname="1">الرضيعة نورة</span> - 72/min</p></div></div>
+                    <div class="alert-card-mini stable"><div class="alert-icon-mini"><i class="fas fa-check-circle"></i></div><div class="alert-text"><h5>Resolved</h5><p><span data-pname="3">الرضيعة ريم</span> - Stable</p></div></div>
+                </div>
+            </div>
+
+            <!-- Patients -->
+            <div class="dashboard-content page" id="patientsContent">
+                <div class="patient-detail-section" id="patientDetailSection">
+                    <div class="patient-header"><div class="patient-avatar-large"><i class="fas fa-baby"></i></div><div class="patient-header-info"><h2 id="detailName">الرضيع عبدالله <span class="status-badge critical">Critical</span></h2><p id="detailId">ID: NEO-2026-001</p></div></div>
+                    <div class="patient-info-grid" id="detailInfo"></div>
+                    <div class="patient-vitals-mini" id="detailVitals"></div>
+                    <div class="readings-section">
+                        <div class="readings-header"><h3><i class="fas fa-table"></i><span id="readingsTitle">Recent Readings</span></h3><div class="time-filter"><button class="active" onclick="setTimeFilter(this,'24h')">24 Hours</button><button onclick="setTimeFilter(this,'2m')">2 Months</button></div></div>
+                        <div class="readings-table-container"><table class="readings-table"><thead><tr><th>Time</th><th>HR</th><th>SpO2</th><th>RR</th><th>ECG</th></tr></thead><tbody id="readingsTableBody"></tbody></table></div>
+                    </div>
+                    <div class="history-chart-section"><h3><i class="fas fa-chart-line"></i><span id="historyTitle">Vital Signs History</span></h3><div class="chart-card"><div class="chart-container"><canvas id="patientHistoryChart"></canvas></div></div><div class="chart-legend"><div class="chart-legend-item"><div class="legend-color" style="background:#f44336"></div>HR</div><div class="chart-legend-item"><div class="legend-color" style="background:#26a69a"></div>SpO2</div><div class="chart-legend-item"><div class="legend-color" style="background:#7c4dff"></div>RR</div><div class="chart-legend-item"><div class="legend-color" style="background:#ff9800"></div>ECG</div></div></div>
+                </div>
+                <div class="section-header"><h2 class="section-title" style="margin:0"><i class="fas fa-users" style="color:var(--accent-teal)"></i><span id="allPatientsTitle">All Patients</span></h2><button class="add-patient-btn" onclick="openAddModal()"><i class="fas fa-plus"></i><span id="addPatientBtn">Add Patient</span></button></div>
+                <table class="data-table"><thead><tr><th>ID</th><th>Name</th><th>Age</th><th>HR</th><th>SpO2</th><th>RR</th><th>Status</th></tr></thead><tbody id="patientsTableBody"></tbody></table>
+            </div>
+
+            <!-- Alerts -->
+            <div class="dashboard-content page" id="alertsContent">
+                <h2 class="section-title"><i class="fas fa-bell" style="color:var(--accent-red)"></i><span id="alertHistoryTitle">Alert History</span></h2>
+                <div class="alerts-list">
+                    <div class="alert-card critical"><div class="alert-icon"><i class="fas fa-lungs"></i></div><div class="alert-content"><h4>Critical: Low SpO2</h4><p><span data-pname="0">الرضيع عبدالله</span> - 88%</p></div><div class="alert-time">2 min ago</div></div>
+                    <div class="alert-card warning"><div class="alert-icon"><i class="fas fa-wind"></i></div><div class="alert-content"><h4>Warning: Tachypnea</h4><p><span data-pname="1">الرضيعة نورة</span> - 72/min</p></div><div class="alert-time">15 min ago</div></div>
+                    <div class="alert-card info"><div class="alert-icon"><i class="fas fa-check-circle"></i></div><div class="alert-content"><h4>Resolved</h4><p><span data-pname="3">الرضيعة ريم</span> - Stable</p></div><div class="alert-time">1 hr ago</div></div>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div class="dashboard-content page" id="settingsContent">
+                <h2 class="section-title"><i class="fas fa-cog" style="color:var(--accent-teal)"></i><span id="settingsTitle">Settings</span></h2>
+                <div class="settings-grid">
+                    <!-- Appearance -->
+                    <div class="settings-card"><h3><i class="fas fa-palette"></i><span id="appearanceTitle">Appearance</span></h3>
+                        <div class="setting-item"><div class="setting-info"><h4 id="darkModeTitle">Dark Mode</h4><p id="darkModeDesc">Toggle dark/light theme</p></div><label class="toggle-switch"><input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="languageTitle">Language</h4><p id="languageDesc">Select your language</p></div><select class="lang-select" id="langSelect" onchange="changeLanguage(this.value)"><option value="en">English</option><option value="ar">العربية</option></select></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="compactViewTitle">Compact View</h4><p id="compactViewDesc">Reduce card spacing</p></div><label class="toggle-switch"><input type="checkbox" onchange="document.querySelectorAll('.dashboard-content').forEach(el=>el.style.padding=this.checked?'12px 15px 30px':'');showSettingToast(translations[currentLang].compactView)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="fontSizeTitle">Font Size</h4><p id="fontSizeLabel">Current: Normal</p></div><div style="display:flex;align-items:center;gap:8px"><button onclick="changeFontSize(-1)" style="width:36px;height:36px;border-radius:8px;border:2px solid var(--border-color);background:var(--bg-main);color:var(--text-dark);font-size:1rem;cursor:pointer;font-weight:700">A−</button><button onclick="changeFontSize(1)" style="width:36px;height:36px;border-radius:8px;border:2px solid var(--accent-teal);background:var(--accent-teal);color:white;font-size:1rem;cursor:pointer;font-weight:700">A+</button></div></div>
+                    </div>
+                    <!-- Notifications -->
+                    <div class="settings-card"><h3><i class="fas fa-bell"></i><span id="notificationsTitle">Notifications</span></h3>
+                        <div class="setting-item"><div class="setting-info"><h4 id="emailAlertTitle">Email Alerts</h4><p id="emailAlertDesc">Receive critical alerts via email</p></div><label class="toggle-switch"><input type="checkbox" checked onchange="showSettingToast(translations[currentLang].emailAlert)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="soundAlertTitle">Sound Alerts</h4><p id="soundAlertDesc">Play audible alarm sounds</p></div><label class="toggle-switch"><input type="checkbox" checked onchange="showSettingToast(translations[currentLang].soundAlert)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="smsAlertTitle">SMS Alerts</h4><p id="smsAlertDesc">Send alerts to registered mobile</p></div><label class="toggle-switch"><input type="checkbox" onchange="showSettingToast(translations[currentLang].smsAlert)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="criticalOnlyTitle">Critical Alerts Only</h4><p id="criticalOnlyDesc">Only notify for critical status</p></div><label class="toggle-switch"><input type="checkbox" onchange="showSettingToast(translations[currentLang].criticalOnly)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="alertFreqTitle">Alert Frequency</h4><p id="alertFreqDesc">Minimum time between alerts</p></div><select class="lang-select" onchange="showSettingToast(translations[currentLang].alertFreq+': '+this.value)"><option>Every 1 min</option><option>Every 5 min</option><option>Every 15 min</option></select></div>
+                    </div>
+                    <!-- Security -->
+                    <div class="settings-card"><h3><i class="fas fa-shield-alt"></i><span id="securityTitle"> Security</span></h3>
+                        <div class="setting-item"><div class="setting-info"><h4 id="twoFATitle">Two-Factor Authentication</h4><p id="twoFADesc">Require OTP on each login</p></div><label class="toggle-switch"><input type="checkbox" checked onchange="showSettingToast(translations[currentLang].twoFA)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="autoLogoutTitle">Auto Logout</h4><p id="autoLogoutDesc">Sign out after inactivity</p></div><select class="lang-select" onchange="showSettingToast(translations[currentLang].autoLogout+': '+this.value)"><option>15 min</option><option>30 min</option><option>1 hour</option><option>Never</option></select></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="loginHistoryTitle">Login History</h4><p id="loginHistoryDesc">View recent login activity</p></div><button class="logout-btn" style="background:var(--accent-teal);font-size:0.75rem" id="viewHistoryBtn" onclick="openModal('loginHistoryModal')">View</button></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="changePasswordTitle">Change Password</h4><p id="changePasswordDesc">Update your account password</p></div><button class="logout-btn" style="background:var(--accent-teal);font-size:0.75rem" id="changePwdBtn" onclick="openModal('changePasswordModal')">Change</button></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="activeSessionsTitle">Active Sessions</h4><p id="activeSessionsDesc">Manage devices logged in</p></div><button class="logout-btn" style="background:var(--accent-teal);font-size:0.75rem" id="manageSessionsBtn" onclick="openModal('sessionsModal')">Manage</button></div>
+                    </div>
+                    <!-- Privacy -->
+                    <div class="settings-card"><h3><i class="fas fa-user-shield"></i><span id="privacyTitle"> Privacy</span></h3>
+                        <div class="setting-item"><div class="setting-info"><h4 id="encryptionTitle">Patient Data Encryption</h4><p id="encryptionDesc">AES-256 encryption at rest</p></div><span style="color:var(--green-stable);font-size:0.8rem;font-weight:600"><i class="fas fa-check-circle"></i> <span id="activeLabel">Active</span></span></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="auditLogTitle">Audit Log</h4><p id="auditLogDesc">Track all data access events</p></div><label class="toggle-switch"><input type="checkbox" checked onchange="showSettingToast(translations[currentLang].auditLog)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="dataSharingTitle">Data Sharing</h4><p id="dataSharingDesc">Share anonymized stats for research</p></div><label class="toggle-switch"><input type="checkbox" onchange="showSettingToast(translations[currentLang].dataSharing)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="screenLockTitle">Screen Timeout Lock</h4><p id="screenLockDesc">Lock screen when idle</p></div><label class="toggle-switch"><input type="checkbox" checked onchange="showSettingToast(translations[currentLang].screenLock)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="hipaaTitle">HIPAA Compliance Mode</h4><p id="hipaaDesc">Enforce stricter data standards</p></div><label class="toggle-switch"><input type="checkbox" checked onchange="showSettingToast(translations[currentLang].hipaa)"><span class="toggle-slider"></span></label></div>
+                    </div>
+                    <!-- Account -->
+                    <div class="settings-card"><h3><i class="fas fa-user-cog"></i><span id="accountTitle"> Account</span></h3>
+                        <div class="setting-item"><div class="setting-info"><h4 id="profileTitle">Profile</h4><p id="profileDesc">Edit name, photo, department</p></div><button class="logout-btn" style="background:var(--accent-teal)" id="editProfileBtn" onclick="openModal('editProfileModal')">Edit</button></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="emailAddressTitle">Email Address</h4><p id="displayEmail"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7f1b101c0b100d3f17100c0f160b1e13510c1e">[email&#160;protected]</a></p></div><button class="logout-btn" style="background:var(--accent-teal)" id="updateEmailBtn" onclick="openModal('updateEmailModal')">Update</button></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="linkedDevicesTitle">Linked Devices</h4><p id="linkedDevicesDesc">Manage wearable sensors</p></div><button class="logout-btn" style="background:var(--accent-teal)" id="manageDevicesBtn" onclick="openModal('devicesModal')">Manage</button></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="logoutTitle">Logout</h4><p id="logoutDesc">Sign out of all sessions</p></div><button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> <span id="logoutBtnText">Logout</span></button></div>
+                    </div>
+                    <!-- Data & Backup -->
+                    <div class="settings-card"><h3><i class="fas fa-database"></i><span id="dataBackupTitle"> Data & Backup</span></h3>
+                        <div class="setting-item"><div class="setting-info"><h4 id="autoBackupTitle">Auto Backup</h4><p id="autoBackupDesc">Backup data every 24 hours</p></div><label class="toggle-switch"><input type="checkbox" checked onchange="showSettingToast(translations[currentLang].autoBackup)"><span class="toggle-slider"></span></label></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="exportReportsTitle">Export Reports</h4><p id="exportDesc">Download patient history as PDF</p></div><button class="logout-btn" style="background:var(--accent-teal)" id="exportBtn" onclick="showSettingToast(translations[currentLang].exportReports+'...')">Export</button></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="retentionTitle">Data Retention</h4><p id="retentionDesc">How long to store readings</p></div><select class="lang-select" onchange="showSettingToast(translations[currentLang].retention+': '+this.value)"><option>6 Months</option><option>1 Year</option><option>3 Years</option><option>Forever</option></select></div>
+                        <div class="setting-item"><div class="setting-info"><h4 id="lastBackupTitle">Last Backup</h4><p id="lastBackupVal">Today at 03:00 AM</p></div><span style="color:var(--green-stable);font-size:0.8rem"><i class="fas fa-check-circle"></i> <span id="syncedLabel">Synced</span></span></div>
+                    </div>
+                </div>
+            </div>
+            <!-- ===== SETTINGS MODALS ===== -->
+            <!-- Toast notification -->
+            <div id="settingToast" style="position:fixed;bottom:30px;right:30px;background:#1a2a4a;color:white;padding:12px 20px;border-radius:10px;font-size:0.85rem;display:none;z-index:3000;box-shadow:0 5px 20px rgba(0,0,0,0.3);border-left:4px solid var(--accent-teal)"><i class="fas fa-check-circle" style="color:var(--accent-teal);margin-right:8px"></i><span id="toastMsg"></span></div>
+
+            <!-- Login History Modal -->
+            <div class="modal" id="loginHistoryModal">
+                <div class="modal-content"><div class="modal-header"><h2><i class="fas fa-history" style="margin-right:8px"></i>Login History</h2><button class="close-btn" onclick="closeModal('loginHistoryModal')"><i class="fas fa-times"></i></button></div>
+                <div class="modal-body">
+                    <div style="display:flex;flex-direction:column;gap:10px">
+                        <div style="display:flex;justify-content:space-between;padding:10px;background:var(--bg-main);border-radius:8px;font-size:0.82rem"><span><i class="fas fa-desktop" style="margin-right:6px;color:var(--accent-teal)"></i>Chrome · Windows</span><span style="color:var(--green-stable)">Today 09:14 AM</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:10px;background:var(--bg-main);border-radius:8px;font-size:0.82rem"><span><i class="fas fa-mobile-alt" style="margin-right:6px;color:var(--accent-teal)"></i>Safari · iPhone</span><span style="color:var(--text-secondary)">Yesterday 11:30 PM</span></div>
+                        <div style="display:flex;justify-content:space-between;padding:10px;background:var(--bg-main);border-radius:8px;font-size:0.82rem"><span><i class="fas fa-desktop" style="margin-right:6px;color:var(--accent-teal)"></i>Chrome · Windows</span><span style="color:var(--text-secondary)">Feb 20, 08:45 AM</span></div>
+                    </div>
+                </div>
+                <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('loginHistoryModal')">Close</button></div></div>
+            </div>
+
+            <!-- Change Password Modal -->
+            <div class="modal" id="changePasswordModal">
+                <div class="modal-content"><div class="modal-header"><h2><i class="fas fa-lock" style="margin-right:8px"></i>Change Password</h2><button class="close-btn" onclick="closeModal('changePasswordModal')"><i class="fas fa-times"></i></button></div>
+                <div class="modal-body">
+                    <div id="pwdError" style="display:none;background:rgba(244,67,54,0.1);color:var(--accent-red);padding:10px;border-radius:8px;font-size:0.82rem;margin-bottom:12px"></div>
+                    <div class="input-group"><label style="color:var(--text-dark)">Current Password</label><div class="input-wrapper"><i class="fas fa-lock input-icon"></i><input type="password" id="pwdCurrent" placeholder="Enter current password" style="width:100%;padding:12px 12px 12px 42px;border:2px solid var(--border-color);border-radius:10px;background:var(--bg-main);color:var(--text-dark);font-family:'Poppins',sans-serif"></div></div>
+                    <div class="input-group"><label style="color:var(--text-dark)">New Password</label><div class="input-wrapper"><i class="fas fa-key input-icon"></i><input type="password" id="pwdNew" placeholder="Enter new password" style="width:100%;padding:12px 12px 12px 42px;border:2px solid var(--border-color);border-radius:10px;background:var(--bg-main);color:var(--text-dark);font-family:'Poppins',sans-serif"></div></div>
+                    <div class="input-group"><label style="color:var(--text-dark)">Confirm New Password</label><div class="input-wrapper"><i class="fas fa-key input-icon"></i><input type="password" id="pwdConfirm" placeholder="Confirm new password" style="width:100%;padding:12px 12px 12px 42px;border:2px solid var(--border-color);border-radius:10px;background:var(--bg-main);color:var(--text-dark);font-family:'Poppins',sans-serif"></div></div>
+                </div>
+                <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('changePasswordModal')">Cancel</button><button class="btn-save" onclick="savePassword()">Save</button></div></div>
+            </div>
+
+            <!-- Active Sessions Modal -->
+            <div class="modal" id="sessionsModal">
+                <div class="modal-content"><div class="modal-header"><h2><i class="fas fa-tablet-alt" style="margin-right:8px"></i>Active Sessions</h2><button class="close-btn" onclick="closeModal('sessionsModal')"><i class="fas fa-times"></i></button></div>
+                <div class="modal-body">
+                    <div style="display:flex;flex-direction:column;gap:10px">
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg-main);border-radius:8px"><div><i class="fas fa-desktop" style="color:var(--accent-teal);margin-right:8px"></i><span style="font-size:0.85rem;font-weight:600;color:var(--text-dark)">This Device</span><p style="font-size:0.72rem;color:var(--text-secondary);margin-top:2px">Chrome · Windows · KFU</p></div><span style="color:var(--green-stable);font-size:0.75rem;font-weight:600">● Active</span></div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg-main);border-radius:8px"><div><i class="fas fa-mobile-alt" style="color:var(--text-secondary);margin-right:8px"></i><span style="font-size:0.85rem;font-weight:600;color:var(--text-dark)">iPhone 14</span><p style="font-size:0.72rem;color:var(--text-secondary);margin-top:2px">Safari · Last seen yesterday</p></div><button class="logout-btn" style="font-size:0.72rem" onclick="showSettingToast('Session terminated');closeModal('sessionsModal')">Revoke</button></div>
+                    </div>
+                </div>
+                <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('sessionsModal')">Close</button></div></div>
+            </div>
+
+            <!-- Edit Profile Modal -->
+            <div class="modal" id="editProfileModal">
+                <div class="modal-content"><div class="modal-header"><h2><i class="fas fa-user-edit" style="margin-right:8px"></i>Edit Profile</h2><button class="close-btn" onclick="closeModal('editProfileModal')"><i class="fas fa-times"></i></button></div>
+                <div class="modal-body">
+                    <div class="input-group"><label style="color:var(--text-dark)">Full Name</label><input type="text" id="profileNameInput" placeholder="Dr. Ahmed Al-Rashid" style="width:100%;padding:12px 15px;border:2px solid var(--border-color);border-radius:10px;background:var(--bg-main);color:var(--text-dark);font-family:'Poppins',sans-serif"></div>
+                    <div class="input-group"><label style="color:var(--text-dark)">Department</label><input type="text" id="profileDeptInput" placeholder="Neonatal Intensive Care" style="width:100%;padding:12px 15px;border:2px solid var(--border-color);border-radius:10px;background:var(--bg-main);color:var(--text-dark);font-family:'Poppins',sans-serif"></div>
+                    <div class="input-group"><label style="color:var(--text-dark)">Employee ID</label><input type="text" id="profileEmpInput" placeholder="EMP-2025-001" style="width:100%;padding:12px 15px;border:2px solid var(--border-color);border-radius:10px;background:var(--bg-main);color:var(--text-dark);font-family:'Poppins',sans-serif"></div>
+                </div>
+                <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('editProfileModal')">Cancel</button><button class="btn-save" onclick="saveProfile()">Save</button></div></div>
+            </div>
+
+            <!-- Update Email Modal -->
+            <div class="modal" id="updateEmailModal">
+                <div class="modal-content"><div class="modal-header"><h2><i class="fas fa-envelope" style="margin-right:8px"></i>Update Email</h2><button class="close-btn" onclick="closeModal('updateEmailModal')"><i class="fas fa-times"></i></button></div>
+                <div class="modal-body">
+                    <div id="emailError" style="display:none;background:rgba(244,67,54,0.1);color:var(--accent-red);padding:10px;border-radius:8px;font-size:0.82rem;margin-bottom:12px"></div>
+                    <div class="input-group"><label style="color:var(--text-dark)">New Email Address</label><div class="input-wrapper"><i class="fas fa-envelope input-icon"></i><input type="email" id="newEmailInput" placeholder="new@hospital.sa" style="width:100%;padding:12px 12px 12px 42px;border:2px solid var(--border-color);border-radius:10px;background:var(--bg-main);color:var(--text-dark);font-family:'Poppins',sans-serif"></div></div>
+                    <div class="input-group"><label style="color:var(--text-dark)">Confirm Password</label><div class="input-wrapper"><i class="fas fa-lock input-icon"></i><input type="password" id="emailPwdInput" placeholder="Enter your password to confirm" style="width:100%;padding:12px 12px 12px 42px;border:2px solid var(--border-color);border-radius:10px;background:var(--bg-main);color:var(--text-dark);font-family:'Poppins',sans-serif"></div></div>
+                </div>
+                <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('updateEmailModal')">Cancel</button><button class="btn-save" onclick="saveEmail()">Save</button></div></div>
+            </div>
+
+            <!-- Linked Devices Modal -->
+            <div class="modal" id="devicesModal">
+                <div class="modal-content"><div class="modal-header"><h2><i class="fas fa-tshirt" style="margin-right:8px"></i>Linked Devices</h2><button class="close-btn" onclick="closeModal('devicesModal')"><i class="fas fa-times"></i></button></div>
+                <div class="modal-body">
+                    <div style="display:flex;flex-direction:column;gap:10px">
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg-main);border-radius:8px"><div><i class="fas fa-tshirt" style="color:var(--accent-teal);margin-right:8px"></i><span style="font-size:0.85rem;font-weight:600;color:var(--text-dark)">VitalWear Suit #001</span><p style="font-size:0.72rem;color:var(--text-secondary);margin-top:2px">Patient: <span data-pname="0">الرضيع عبدالله</span> · Battery 82%</p></div><span style="color:var(--green-stable);font-size:0.75rem;font-weight:600">● Online</span></div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg-main);border-radius:8px"><div><i class="fas fa-tshirt" style="color:var(--accent-teal);margin-right:8px"></i><span style="font-size:0.85rem;font-weight:600;color:var(--text-dark)">VitalWear Suit #002</span><p style="font-size:0.72rem;color:var(--text-secondary);margin-top:2px">Patient: <span data-pname="1">الرضيعة نورة</span> · Battery 64%</p></div><span style="color:var(--green-stable);font-size:0.75rem;font-weight:600">● Online</span></div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg-main);border-radius:8px"><div><i class="fas fa-tshirt" style="color:var(--text-secondary);margin-right:8px"></i><span style="font-size:0.85rem;font-weight:600;color:var(--text-dark)">VitalWear Suit #003</span><p style="font-size:0.72rem;color:var(--text-secondary);margin-top:2px">Unassigned · Battery 100%</p></div><span style="color:var(--text-secondary);font-size:0.75rem">● Standby</span></div>
+                    </div>
+                </div>
+                <div class="modal-footer"><button class="btn-cancel" onclick="closeModal('devicesModal')">Close</button></div></div>
+            </div>
+
+            <!-- About -->
+            <div class="dashboard-content page" id="aboutContent">
+                <div class="about-hero">
+                    <h1>Vital<span>Wear</span></h1>
+                    <div class="tagline">NEONATAL MONITORING SUIT</div>
+                    <p id="aboutDesc" style="margin-bottom:15px">VitalWear is an advanced wearable monitoring system designed specifically for neonatal intensive care. It continuously tracks 4 essential vital signs — Heart Rate, SpO2, Respiratory Rate, and ECG — providing real-time data to care teams around the clock.</p>
+                    <div style="display:flex;justify-content:center;gap:25px;flex-wrap:wrap">
+                        <div style="text-align:center"><div style="font-size:1.8rem;font-weight:700;color:var(--accent-teal)">500+</div><div style="font-size:0.7rem;color:var(--text-gray)">Patients Monitored</div></div>
+                        <div style="text-align:center"><div style="font-size:1.8rem;font-weight:700;color:var(--accent-teal)">12</div><div style="font-size:0.7rem;color:var(--text-gray)">Partner Hospitals</div></div>
+                        <div style="text-align:center"><div style="font-size:1.8rem;font-weight:700;color:var(--accent-teal)">99.7%</div><div style="font-size:0.7rem;color:var(--text-gray)">Uptime Reliability</div></div>
+                        <div style="text-align:center"><div style="font-size:1.8rem;font-weight:700;color:var(--accent-teal)">2025</div><div style="font-size:0.7rem;color:var(--text-gray)">Founded</div></div>
+                    </div>
+                </div>
+
+                <div class="about-grid">
+                    <div class="about-card"><div class="icon"><i class="fas fa-heartbeat"></i></div><h3 id="missionTitle">Our Mission</h3><p id="missionDesc">To revolutionize neonatal care by delivering real-time, wearable monitoring technology that empowers healthcare professionals with actionable insights — reducing response time in critical moments and improving patient outcomes for the most vulnerable patients.</p></div>
+                    <div class="about-card"><div class="icon"><i class="fas fa-bullseye"></i></div><h3 id="visionTitle">Our Vision</h3><p id="visionDesc">To become the global standard in neonatal vital monitoring, making NICU-grade care accessible in every hospital worldwide. We envision a future where no newborn goes unmonitored, regardless of location or resources.</p></div>
+                    <div class="about-card"><div class="icon"><i class="fas fa-star"></i></div><h3 id="valuesTitle">Our Values</h3><p id="valuesDesc">Excellence in engineering, compassion for patients, and relentless innovation drive every decision we make. We believe in transparent collaboration with healthcare teams, ethical use of patient data, and continuous improvement guided by clinical feedback.</p></div>
+                </div>
+
+                <!-- How it Works -->
+                <div style="background:var(--bg-card);border-radius:14px;padding:25px;margin-bottom:20px;box-shadow:0 3px 15px rgba(0,0,0,0.05)">
+                    <h2 style="text-align:center;color:var(--text-dark);margin-bottom:20px;font-size:1.1rem;display:flex;align-items:center;justify-content:center;gap:8px"><i class="fas fa-microchip" style="color:var(--accent-teal)"></i> How VitalWear Works</h2>
+                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px">
+                        <div style="text-align:center;padding:15px">
+                            <div style="width:50px;height:50px;border-radius:50%;background:rgba(38,166,154,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.3rem;color:var(--accent-teal)"><i class="fas fa-tshirt"></i></div>
+                            <h4 style="font-size:0.85rem;color:var(--text-dark);margin-bottom:5px">1. Wearable Suit</h4>
+                            <p style="font-size:0.75rem;color:var(--text-secondary)">Ultra-soft biosensor suit placed on the newborn captures continuous biometric data.</p>
+                        </div>
+                        <div style="text-align:center;padding:15px">
+                            <div style="width:50px;height:50px;border-radius:50%;background:rgba(124,77,255,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.3rem;color:var(--accent-purple)"><i class="fas fa-wifi"></i></div>
+                            <h4 style="font-size:0.85rem;color:var(--text-dark);margin-bottom:5px">2. Wireless Sync</h4>
+                            <p style="font-size:0.75rem;color:var(--text-secondary)">Data transmitted securely via BLE/Wi-Fi to the hospital network in real time.</p>
+                        </div>
+                        <div style="text-align:center;padding:15px">
+                            <div style="width:50px;height:50px;border-radius:50%;background:rgba(255,152,0,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.3rem;color:var(--accent-orange)"><i class="fas fa-brain"></i></div>
+                            <h4 style="font-size:0.85rem;color:var(--text-dark);margin-bottom:5px">3. AI Analysis</h4>
+                            <p style="font-size:0.75rem;color:var(--text-secondary)">AI engine analyzes patterns, detects anomalies, and generates intelligent clinical alerts.</p>
+                        </div>
+                        <div style="text-align:center;padding:15px">
+                            <div style="width:50px;height:50px;border-radius:50%;background:rgba(244,67,54,0.15);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:1.3rem;color:var(--accent-red)"><i class="fas fa-user-md"></i></div>
+                            <h4 style="font-size:0.85rem;color:var(--text-dark);margin-bottom:5px">4. Care Team Alert</h4>
+                            <p style="font-size:0.75rem;color:var(--text-secondary)">Doctors and nurses receive instant notifications on this dashboard and via SMS/email.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certifications & Standards -->
+                <div style="background:var(--bg-card);border-radius:14px;padding:25px;margin-bottom:20px;box-shadow:0 3px 15px rgba(0,0,0,0.05)">
+                    <h2 style="text-align:center;color:var(--text-dark);margin-bottom:20px;font-size:1.1rem;display:flex;align-items:center;justify-content:center;gap:8px"><i class="fas fa-certificate" style="color:var(--accent-teal)"></i> Certifications & Compliance</h2>
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px">
+                        <div style="background:var(--bg-main);border-radius:10px;padding:15px;text-align:center;border:1px solid var(--border-color)">
+                            <i class="fas fa-shield-alt" style="font-size:1.5rem;color:var(--accent-teal);margin-bottom:8px;display:block"></i>
+                            <h4 style="font-size:0.85rem;color:var(--text-dark);margin-bottom:4px">HIPAA Compliant</h4>
+                            <p style="font-size:0.7rem;color:var(--text-secondary)">Full compliance with US Health Insurance Portability and Accountability Act.</p>
+                        </div>
+                        <div style="background:var(--bg-main);border-radius:10px;padding:15px;text-align:center;border:1px solid var(--border-color)">
+                            <i class="fas fa-lock" style="font-size:1.5rem;color:var(--accent-teal);margin-bottom:8px;display:block"></i>
+                            <h4 style="font-size:0.85rem;color:var(--text-dark);margin-bottom:4px">ISO 14971:2019</h4>
+                            <p style="font-size:0.7rem;color:var(--text-secondary)">Risk Management Application on Medical Devices — internationally certified standard.</p>
+                        </div>
+                        <div style="background:var(--bg-main);border-radius:10px;padding:15px;text-align:center;border:1px solid var(--border-color)">
+                            <i class="fas fa-check-double" style="font-size:1.5rem;color:var(--accent-teal);margin-bottom:8px;display:block"></i>
+                            <h4 style="font-size:0.85rem;color:var(--text-dark);margin-bottom:4px">SFDA Registered</h4>
+                            <p style="font-size:0.7rem;color:var(--text-secondary)">Approved by Saudi Food & Drug Authority for medical device use.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team -->
+                <div class="team-section">
+                    <h2 id="teamTitle" style="display:flex;align-items:center;justify-content:center;gap:8px"><i class="fas fa-users" style="color:var(--accent-teal)"></i> Our Team</h2>
+                    <p style="text-align:center;color:var(--text-secondary);font-size:0.8rem;margin-bottom:20px">A passionate multidisciplinary team from King Fahd University of Petroleum & Minerals, combining biomedical engineering, software development, and UI/UX design.</p>
+                    <div class="team-grid">
+                        <div class="team-member"><div class="avatar"><i class="fas fa-user"></i></div><h4>Alzahraa Alhamdan</h4><p>Team Leader & Product Manager</p></div>
+                        <div class="team-member"><div class="avatar"><i class="fas fa-user"></i></div><h4>Zainab Alsultan</h4><p>Backend Developer</p></div>
+                        <div class="team-member"><div class="avatar"><i class="fas fa-user"></i></div><h4>Hawraa Alzwaied</h4><p>Firmware & Embedded Systems</p></div>
+                        <div class="team-member"><div class="avatar"><i class="fas fa-user"></i></div><h4>Fatimah Bu Grain</h4><p>UI/UX Designer</p></div>
+                        <div class="team-member"><div class="avatar"><i class="fas fa-user"></i></div><h4>Manal Alyassin</h4><p>Frontend Developer</p></div>
+                        <div class="team-member"><div class="avatar"><i class="fas fa-user"></i></div><h4>Maryam Alkhars</h4><p>Data & AI Engineer</p></div>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div style="background:linear-gradient(135deg,#1a2a4a,#0f1a2e);border-radius:14px;padding:25px;text-align:center;color:white;margin-top:20px">
+                    <h2 style="font-size:1.1rem;margin-bottom:8px"><i class="fas fa-envelope" style="color:var(--accent-teal);margin-right:8px"></i>Contact Us</h2>
+                    <p style="color:var(--text-gray);font-size:0.85rem;margin-bottom:15px">Have feedback, questions, or want to partner with us? We'd love to hear from you.</p>
+                    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;font-size:0.8rem;color:var(--text-gray)">
+                        <span><i class="fas fa-envelope" style="margin-right:5px;color:var(--accent-teal)"></i><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f5919a96819a87b59d9a86859c819499db8694">[email&#160;protected]</a></span>
+                        <span><i class="fas fa-phone" style="margin-right:5px;color:var(--accent-teal)"></i>+966 13 860 0000</span>
+                        <span><i class="fas fa-map-marker-alt" style="margin-right:5px;color:var(--accent-teal)"></i>King Faisal University, KSA</span>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ===== PARENT PORTAL ===== -->
+    <div id="parentPortal" style="display:none;min-height:100vh;background:var(--bg-main)">
+        <!-- Parent Header -->
+        <div style="background:linear-gradient(135deg,#0f1a2e,#1a2a4a);padding:15px 25px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 15px rgba(0,0,0,0.2)">
+            <div style="display:flex;align-items:center;gap:12px">
+                <div style="width:38px;height:38px;border-radius:50%;background:rgba(38,166,154,0.3);display:flex;align-items:center;justify-content:center"><i class="fas fa-heart" style="color:var(--accent-teal)"></i></div>
+                <div><div style="color:white;font-weight:600;font-size:1rem">VitalWear <span style="color:var(--accent-teal)">Parent Portal</span></div><div style="color:var(--text-gray);font-size:0.72rem" id="parentWelcome">Welcome</div></div>
+            </div>
+            <button onclick="parentLogout()" style="background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:0.82rem;font-family:'Poppins',sans-serif"><i class="fas fa-sign-out-alt" style="margin-right:6px"></i>Logout</button>
+        </div>
+
+        <div style="max-width:700px;margin:0 auto;padding:25px 20px">
+            <!-- Baby info card -->
+            <div style="background:linear-gradient(135deg,#1a2a4a,#0f3035);border-radius:16px;padding:22px;margin-bottom:20px;color:white;display:flex;align-items:center;gap:18px">
+                <div style="width:64px;height:64px;border-radius:50%;background:rgba(38,166,154,0.25);border:2px solid var(--accent-teal);display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">👶</div>
+                <div>
+                    <h2 style="font-size:1.2rem;margin-bottom:4px" id="parentViewName">الرضيع عبدالله</h2>
+                    <p style="opacity:0.7;font-size:0.8rem" id="parentViewId">ID: NEO-2026-001</p>
+                    <span id="parentViewStatus" style="display:inline-block;margin-top:6px;padding:3px 12px;border-radius:20px;font-size:0.72rem;font-weight:600;background:rgba(244,67,54,0.2);color:#ff6b6b">Critical</span>
+                </div>
+                <div style="margin-left:auto;text-align:right">
+                    <div style="font-size:0.7rem;color:rgba(255,255,255,0.5);margin-bottom:2px">Last updated</div>
+                    <div style="font-size:0.82rem;color:var(--accent-teal)" id="parentLastUpdate">Just now</div>
+                </div>
+            </div>
+
+            <!-- Vitals for parents — simplified -->
+            <h3 style="color:var(--text-dark);font-size:0.95rem;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-heartbeat" style="color:var(--accent-red)"></i> Baby's Vital Signs</h3>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:20px">
+                <div style="background:var(--bg-card);border-radius:14px;padding:18px;border-left:4px solid #f44336;box-shadow:0 2px 10px rgba(0,0,0,0.05)">
+                    <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:4px">❤️ Heart Rate</div>
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--text-dark)" id="pHR">—</div>
+                    <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:4px">Normal range: 120–160 bpm</div>
+                </div>
+                <div style="background:var(--bg-card);border-radius:14px;padding:18px;border-left:4px solid #26a69a;box-shadow:0 2px 10px rgba(0,0,0,0.05)">
+                    <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:4px">🫁 Oxygen Level (SpO2)</div>
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--text-dark)" id="pSPO2">—</div>
+                    <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:4px">Normal range: 95–100%</div>
+                </div>
+                <div style="background:var(--bg-card);border-radius:14px;padding:18px;border-left:4px solid #7c4dff;box-shadow:0 2px 10px rgba(0,0,0,0.05)">
+                    <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:4px">💨 Breathing Rate</div>
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--text-dark)" id="pRR">—</div>
+                    <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:4px">Normal range: 30–60 /min</div>
+                </div>
+                <div style="background:var(--bg-card);border-radius:14px;padding:18px;border-left:4px solid #ff9800;box-shadow:0 2px 10px rgba(0,0,0,0.05)">
+                    <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:4px">📈 Heart Rhythm (ECG)</div>
+                    <div style="font-size:1.6rem;font-weight:700;color:var(--text-dark)" id="pECG">—</div>
+                    <div style="font-size:0.72rem;color:var(--text-secondary);margin-top:4px">Normal: Regular rhythm</div>
+                </div>
+            </div>
+
+            <!-- Doctor's latest note for parents -->
+            <h3 style="color:var(--text-dark);font-size:0.95rem;margin-bottom:12px;display:flex;align-items:center;gap:8px"><i class="fas fa-stethoscope" style="color:var(--accent-teal)"></i> Latest Note from Doctor</h3>
+            <div style="background:var(--bg-card);border-radius:14px;padding:18px;margin-bottom:20px;border:1px solid var(--border-color);box-shadow:0 2px 10px rgba(0,0,0,0.05)">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+                    <span style="font-weight:600;font-size:0.9rem;color:var(--text-dark)">Dr. Ahmed Al-Rashid</span>
+                    <span style="font-size:0.72rem;background:var(--bg-main);color:var(--text-secondary);padding:3px 10px;border-radius:20px">Today, 09:30 AM</span>
+                </div>
+                <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.6">Your baby is showing signs of improvement. Oxygen levels are stabilizing. We are continuing the current care plan and will update you with any significant changes. You can contact the nurse station at any time for updates.</p>
+            </div>
+
+            <!-- General status banner -->
+            <div id="parentStatusBanner" style="background:rgba(244,67,54,0.08);border:1px solid rgba(244,67,54,0.2);border-radius:12px;padding:15px 18px;display:flex;align-items:center;gap:12px">
+                <i class="fas fa-info-circle" style="color:var(--accent-red);font-size:1.2rem;flex-shrink:0"></i>
+                <div>
+                    <div style="font-weight:600;font-size:0.85rem;color:var(--text-dark)" id="parentStatusTitle">Monitoring Active</div>
+                    <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">Your baby is being closely monitored by the NICU care team 24/7. If you have concerns, please contact the nursing station directly.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Patient Modal -->
+    <div class="modal" id="addPatientModal">
+        <div class="modal-content">
+            <div class="modal-header"><h2><i class="fas fa-user-plus" style="margin-right:8px"></i><span id="addModalTitle">Add New Patient</span></h2><button class="close-btn" onclick="closeAddModal()"><i class="fas fa-times"></i></button></div>
+            <div class="modal-body">
+                <div class="input-group"><label id="nameLabel">Patient Name</label><input type="text" id="newName" placeholder="e.g., الرضيع محمد"></div>
+                <div class="input-group"><label id="ageLabel">Age (days)</label><input type="number" id="newAge" placeholder="e.g., 5"></div>
+                <div class="input-group"><label id="weightLabel">Weight (kg)</label><input type="number" step="0.1" id="newWeight" placeholder="e.g., 2.5"></div>
+                <div class="input-group"><label id="genderLabel">Gender</label><select id="newGender"><option value="Male">Male</option><option value="Female">Female</option></select></div>
+            </div>
+            <div class="modal-footer"><button class="btn-cancel" onclick="closeAddModal()" id="cancelBtn">Cancel</button><button class="btn-save" onclick="addPatient()" id="saveBtn"><i class="fas fa-save" style="margin-right:6px"></i>Save</button></div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let patients=[
+            {id:'NEO-2026-001',nameAr:'الرضيع عبدالله',nameEn:'Baby Abdullah',age:'3 days',weight:'2.1 kg',gender:'Male',status:'critical',hr:165,spo2:88,rr:62,ecg:'Irregular',readings24h:[{time:'10:00',hr:165,spo2:88,rr:62,ecg:65},{time:'09:00',hr:160,spo2:89,rr:60,ecg:68},{time:'08:00',hr:155,spo2:90,rr:58,ecg:70},{time:'07:00',hr:150,spo2:91,rr:56,ecg:72},{time:'06:00',hr:148,spo2:92,rr:54,ecg:75}],readings2m:[]},
+            {id:'NEO-2026-002',nameAr:'الرضيعة نورة',nameEn:'Baby Noura',age:'5 days',weight:'1.8 kg',gender:'Female',status:'unstable',hr:155,spo2:92,rr:58,ecg:'Slightly Irregular',readings24h:[{time:'10:00',hr:155,spo2:92,rr:58,ecg:80},{time:'09:00',hr:152,spo2:93,rr:56,ecg:82},{time:'08:00',hr:150,spo2:94,rr:54,ecg:84}],readings2m:[]},
+            {id:'NEO-2026-003',nameAr:'الرضيع فهد',nameEn:'Baby Fahad',age:'7 days',weight:'2.8 kg',gender:'Male',status:'stable',hr:138,spo2:97,rr:42,ecg:'Normal',readings24h:[{time:'10:00',hr:138,spo2:97,rr:42,ecg:98},{time:'09:00',hr:136,spo2:98,rr:41,ecg:99}],readings2m:[]},
+            {id:'NEO-2026-004',nameAr:'الرضيعة ريم',nameEn:'Baby Reem',age:'10 days',weight:'3.2 kg',gender:'Female',status:'stable',hr:132,spo2:98,rr:40,ecg:'Normal',readings24h:[{time:'10:00',hr:132,spo2:98,rr:40,ecg:99}],readings2m:[]},
+            {id:'NEO-2026-005',nameAr:'الرضيع يوسف',nameEn:'Baby Yousef',age:'2 days',weight:'2.5 kg',gender:'Male',status:'unstable',hr:148,spo2:94,rr:52,ecg:'Slightly Irregular',readings24h:[{time:'10:00',hr:148,spo2:94,rr:52,ecg:84}],readings2m:[]}
+        ];
+        // Helper: get patient name by current language
+        function pName(p){return currentLang==='ar'?p.nameAr:p.nameEn;}
+
+        // Update all static [data-pname] spans in HTML when language changes
+        function updatePatientNameSpans(){
+            document.querySelectorAll('[data-pname]').forEach(el=>{
+                const idx=parseInt(el.getAttribute('data-pname'));
+                if(patients[idx]) el.textContent=pName(patients[idx]);
+            });
+        }
+        // Generate 2 month data
+        patients.forEach(p=>{for(let i=0;i<60;i++){p.readings2m.push({day:'Day '+(60-i),hr:Math.floor(Math.random()*30)+120,spo2:Math.floor(Math.random()*10)+90,rr:Math.floor(Math.random()*20)+35,ecg:Math.floor(Math.random()*20)+75});}});
+        
+        let currentPatient=0,patientChart=null,dashChart=null,currentLang='en',isDarkMode=false,currentTimeFilter='24h';
+        
+        const translations={
+            en:{
+                dashboard:'Dashboard',patients:'Patients',alerts:'Alerts',settings:'Settings',about:'About',
+                searchPatient:'Search Patient by ID',search:'Search',recentAlerts:'Recent Alerts',
+                currentVitals:'Current Vitals',allPatients:'All Patients',addPatient:'Add Patient',
+                readings:'Recent Readings',history:'Vital Signs History',alertHistory:'Alert History',
+                appearance:'Appearance',darkMode:'Dark Mode',darkModeDesc:'Toggle dark/light theme',
+                language:'Language',languageDesc:'Select your language',
+                compactView:'Compact View',compactDesc:'Reduce card spacing',
+                fontSize:'Font Size',
+                notifications:'Notifications',emailAlert:'Email Alerts',emailAlertDesc:'Receive critical alerts via email',
+                soundAlert:'Sound Alerts',soundAlertDesc:'Play audible alarm sounds',
+                smsAlert:'SMS Alerts',smsAlertDesc:'Send alerts to registered mobile',
+                criticalOnly:'Critical Alerts Only',criticalOnlyDesc:'Only notify for critical status',
+                alertFreq:'Alert Frequency',alertFreqDesc:'Minimum time between alerts',
+                security:'Security',twoFA:'Two-Factor Authentication',twoFADesc:'Require OTP on each login',
+                autoLogout:'Auto Logout',autoLogoutDesc:'Sign out after inactivity',
+                loginHistory:'Login History',loginHistoryDesc:'View recent login activity',
+                changePassword:'Change Password',changePasswordDesc:'Update your account password',
+                activeSessions:'Active Sessions',activeSessionsDesc:'Manage devices logged in',
+                privacy:'Privacy',encryption:'Patient Data Encryption',encryptionDesc:'AES-256 encryption at rest',
+                auditLog:'Audit Log',auditLogDesc:'Track all data access events',
+                dataSharing:'Data Sharing',dataSharingDesc:'Share anonymized stats for research',
+                screenLock:'Screen Timeout Lock',screenLockDesc:'Lock screen when idle',
+                hipaa:'HIPAA Compliance Mode',hipaaDesc:'Enforce stricter data standards',
+                account:'Account',profile:'Profile',profileDesc:'Edit name, photo, department',
+                emailAddress:'Email Address',linkedDevices:'Linked Devices',linkedDevicesDesc:'Manage wearable sensors',
+                logout:'Logout',logoutDesc:'Sign out of all sessions',
+                dataBackup:'Data & Backup',autoBackup:'Auto Backup',autoBackupDesc:'Backup data every 24 hours',
+                exportReports:'Export Reports',exportDesc:'Download patient history as PDF',
+                retention:'Data Retention',retentionDesc:'How long to store readings',
+                lastBackup:'Last Backup',lastBackupVal:'Today at 03:00 AM',synced:'Synced',
+                mission:'Our Mission',missionDesc:'To revolutionize neonatal care by delivering real-time, wearable monitoring technology that empowers healthcare professionals with actionable insights — reducing response time in critical moments and improving patient outcomes for the most vulnerable patients.',
+                vision:'Our Vision',visionDesc:'To become the global standard in neonatal vital monitoring, making NICU-grade care accessible in every hospital worldwide. We envision a future where no newborn goes unmonitored, regardless of location or resources.',
+                values:'Our Values',valuesDesc:'Excellence in engineering, compassion for patients, and relentless innovation drive every decision we make. We believe in transparent collaboration with healthcare teams, ethical use of patient data, and continuous improvement guided by clinical feedback.',
+                team:'Our Team',addModal:'Add New Patient',name:'Patient Name',age:'Age (days)',weight:'Weight (kg)',
+                gender:'Gender',cancel:'Cancel',save:'Save',doctor:'Doctor',nurse:'Nurse',parent:'Parent',
+                username:'Username / Employee ID',password:'Password',babyId:'Baby ID (Patient Identifier)',
+                remember:'Remember me',forgot:'Forgot password?',signIn:'Sign In',
+                loginDesc:'Advanced wearable monitoring technology for healthcare professionals dedicated to neonatal intensive care.',
+                aboutDesc:'VitalWear is an advanced wearable monitoring system designed specifically for neonatal intensive care. It continuously tracks 4 essential vital signs — Heart Rate, SpO2, Respiratory Rate, and ECG — providing real-time data to care teams around the clock.',
+                notif:'Notifications',vitalChart:'ECG & Vital Signs Monitor',
+                heartRate:'Heart Rate',spo2:'SpO2',respRate:'Resp. Rate',ecg:'ECG',
+                doctorNotes:"Doctor's Notes",searchPlaceholder:'Enter Patient ID (e.g., NEO-2026-001)',
+                searchHint:'Enter Patient ID to view vitals',viewBtn:'View',changeBtn:'Change',manageBtn:'Manage',editBtn:'Edit',updateBtn:'Update',exportBtn:'Export',
+                currentSize:'Current:',normal:'Normal',large:'Large',xlarge:'X-Large',
+                patientSearch:'Search patient...',pageTitle:'Dashboard',
+                time:'Time',hr:'HR',rr:'RR',
+                addPatientLabel:'Add Patient',male:'Male',female:'Female',
+                recentReadings:'Recent Readings',vitalHistory:'Vital Signs History',
+                howWorks:'How VitalWear Works',certifications:'Certifications & Compliance',
+                contactUs:'Contact Us',foundedLabel:'Founded',patientsLabel:'Patients Monitored',
+                hospitalsLabel:'Partner Hospitals',uptimeLabel:'Uptime Reliability',
+                wearableSuit:'1. Wearable Suit',wirelessSync:'2. Wireless Sync',aiAnalysis:'3. AI Analysis',careAlert:'4. Care Team Alert',
+                wearableDesc:'Ultra-soft biosensor suit placed on the newborn captures continuous biometric data.',
+                wirelessDesc:'Data transmitted securely via BLE/Wi-Fi to the hospital network in real time.',
+                aiDesc:'AI engine analyzes patterns, detects anomalies, and generates intelligent clinical alerts.',
+                careDesc:'Doctors and nurses receive instant notifications on this dashboard and via SMS/email.',
+                allPatientsBtn:'All Patients',addPatientBtn:'Add Patient',
+                statusStable:'stable',statusUnstable:'unstable',statusCritical:'critical',
+                parentPortalTitle:'Parent Portal',parentWelcomePrefix:'Welcome,',
+                parentBabyVitals:"Baby's Vital Signs",parentDoctorNote:'Latest Note from Doctor',
+                parentName:'Parent Name',parentBabyId:'Baby ID',parentCode:'Family Access Code',
+                enterPortal:'Enter Parent Portal',parentNamePh:'e.g., Ahmed Al-Zahrani',parentBabyIdPh:'e.g., NEO-2026-001',parentCodePh:'Enter your access code',
+            },
+            ar:{
+                dashboard:'لوحة التحكم',patients:'المرضى',alerts:'التنبيهات',settings:'الإعدادات',about:'حول',
+                searchPatient:'البحث عن مريض بالرقم التعريفي',search:'بحث',recentAlerts:'التنبيهات الأخيرة',
+                currentVitals:'المؤشرات الحيوية الحالية',allPatients:'جميع المرضى',addPatient:'إضافة مريض',
+                readings:'القراءات الأخيرة',history:'تاريخ المؤشرات الحيوية',alertHistory:'سجل التنبيهات',
+                appearance:'المظهر',darkMode:'الوضع الليلي',darkModeDesc:'تبديل بين الوضع الليلي والنهاري',
+                language:'اللغة',languageDesc:'اختر لغة الواجهة',
+                compactView:'العرض المضغوط',compactDesc:'تقليل المسافات بين البطاقات',
+                fontSize:'حجم الخط',
+                notifications:'الإشعارات',emailAlert:'تنبيهات البريد الإلكتروني',emailAlertDesc:'استلام التنبيهات الحرجة عبر البريد',
+                soundAlert:'التنبيهات الصوتية',soundAlertDesc:'تشغيل صوت التنبيه عند الإنذار',
+                smsAlert:'تنبيهات الرسائل',smsAlertDesc:'إرسال تنبيهات للجوال المسجل',
+                criticalOnly:'التنبيهات الحرجة فقط',criticalOnlyDesc:'الإشعار عند الحالات الحرجة فقط',
+                alertFreq:'تكرار التنبيهات',alertFreqDesc:'الحد الأدنى للوقت بين التنبيهات',
+                security:'الأمان',twoFA:'التحقق بخطوتين',twoFADesc:'طلب رمز OTP عند كل تسجيل دخول',
+                autoLogout:'تسجيل الخروج التلقائي',autoLogoutDesc:'الخروج تلقائياً بعد فترة خمول',
+                loginHistory:'سجل تسجيل الدخول',loginHistoryDesc:'عرض نشاط تسجيل الدخول الأخير',
+                changePassword:'تغيير كلمة المرور',changePasswordDesc:'تحديث كلمة مرور حسابك',
+                activeSessions:'الجلسات النشطة',activeSessionsDesc:'إدارة الأجهزة المسجلة',
+                privacy:'الخصوصية',encryption:'تشفير بيانات المرضى',encryptionDesc:'تشفير AES-256 للبيانات المخزنة',
+                auditLog:'سجل المراجعة',auditLogDesc:'تتبع جميع عمليات الوصول للبيانات',
+                dataSharing:'مشاركة البيانات',dataSharingDesc:'مشاركة إحصاءات مجهولة للبحث العلمي',
+                screenLock:'قفل الشاشة',screenLockDesc:'قفل الشاشة تلقائياً عند الخمول',
+                hipaa:'وضع الامتثال لـ HIPAA',hipaaDesc:'تطبيق معايير بيانات أكثر صرامة',
+                account:'الحساب',profile:'الملف الشخصي',profileDesc:'تعديل الاسم والصورة والقسم',
+                emailAddress:'البريد الإلكتروني',linkedDevices:'الأجهزة المرتبطة',linkedDevicesDesc:'إدارة أجهزة الاستشعار القابلة للارتداء',
+                logout:'تسجيل الخروج',logoutDesc:'الخروج من جميع الجلسات',
+                dataBackup:'البيانات والنسخ الاحتياطي',autoBackup:'النسخ الاحتياطي التلقائي',autoBackupDesc:'نسخ احتياطي للبيانات كل 24 ساعة',
+                exportReports:'تصدير التقارير',exportDesc:'تنزيل سجل المريض بصيغة PDF',
+                retention:'الاحتفاظ بالبيانات',retentionDesc:'مدة الاحتفاظ بالقراءات',
+                lastBackup:'آخر نسخة احتياطية',lastBackupVal:'اليوم 03:00 ص',synced:'متزامن',
+                mission:'مهمتنا',missionDesc:'إحداث ثورة في رعاية حديثي الولادة من خلال تقنية مراقبة فورية قابلة للارتداء، تمكّن المختصين الصحيين من رؤى قابلة للتطبيق — تقليص وقت الاستجابة في اللحظات الحرجة وتحسين نتائج أصغر المرضى.',
+                vision:'رؤيتنا',visionDesc:'أن نكون المعيار العالمي في مراقبة حديثي الولادة، ونجعل رعاية وحدات العناية المركزة متاحة في كل مستشفى حول العالم. نتطلع لمستقبل لا يوجد فيه مولود جديد دون مراقبة، بغض النظر عن الموقع أو الإمكانيات.',
+                values:'قيمنا',valuesDesc:'التميز في الهندسة، والرحمة بالمرضى، والابتكار المتواصل يقود كل قراراتنا. نؤمن بالتعاون الشفاف مع الفرق الصحية، والاستخدام الأخلاقي لبيانات المرضى، والتحسين المستمر.',
+                team:'فريقنا',addModal:'إضافة مريض جديد',name:'اسم المريض',age:'العمر (أيام)',weight:'الوزن (كجم)',
+                gender:'الجنس',cancel:'إلغاء',save:'حفظ',doctor:'طبيب',nurse:'ممرض',parent:'ولي الأمر',
+                username:'اسم المستخدم / رقم الموظف',password:'كلمة المرور',babyId:'رقم هوية المريض',
+                remember:'تذكرني',forgot:'نسيت كلمة المرور؟',signIn:'تسجيل الدخول',
+                loginDesc:'تقنية مراقبة متطورة قابلة للارتداء لمختصي الرعاية الصحية المكرسين لرعاية حديثي الولادة.',
+                aboutDesc:'VitalWear نظام مراقبة متطور قابل للارتداء مصمم خصيصاً لرعاية حديثي الولادة. يتتبع 4 مؤشرات حيوية أساسية: معدل ضربات القلب، تشبع الأكسجين، معدل التنفس، وتخطيط القلب — ويوفر البيانات الفورية لفرق الرعاية على مدار الساعة.',
+                notif:'الإشعارات',vitalChart:'مراقب تخطيط القلب والمؤشرات الحيوية',
+                heartRate:'معدل ضربات القلب',spo2:'تشبع الأكسجين',respRate:'معدل التنفس',ecg:'تخطيط القلب',
+                doctorNotes:'ملاحظات الطبيب',searchPlaceholder:'أدخل رقم المريض (مثال: NEO-2026-001)',
+                searchHint:'أدخل الرقم التعريفي للمريض لعرض المؤشرات',viewBtn:'عرض',changeBtn:'تغيير',manageBtn:'إدارة',editBtn:'تعديل',updateBtn:'تحديث',exportBtn:'تصدير',
+                currentSize:'الحجم الحالي:',normal:'عادي',large:'كبير',xlarge:'كبير جداً',
+                patientSearch:'البحث عن مريض...',pageTitle:'لوحة التحكم',
+                time:'الوقت',hr:'ن.ق',rr:'معدل التنفس',
+                addPatientLabel:'إضافة مريض',male:'ذكر',female:'أنثى',
+                recentReadings:'القراءات الأخيرة',vitalHistory:'تاريخ المؤشرات الحيوية',
+                howWorks:'كيف يعمل VitalWear',certifications:'الشهادات والامتثال',
+                contactUs:'تواصل معنا',foundedLabel:'تأسست',patientsLabel:'مريض تمت مراقبته',
+                hospitalsLabel:'مستشفى شريك',uptimeLabel:'موثوقية التشغيل',
+                wearableSuit:'١. البدلة القابلة للارتداء',wirelessSync:'٢. المزامنة اللاسلكية',aiAnalysis:'٣. التحليل بالذكاء الاصطناعي',careAlert:'٤. تنبيه فريق الرعاية',
+                wearableDesc:'بدلة مستشعرات فائقة النعومة توضع على المولود لالتقاط البيانات الحيوية باستمرار.',
+                wirelessDesc:'تُرسل البيانات بأمان عبر BLE/Wi-Fi لشبكة المستشفى في الوقت الفعلي.',
+                aiDesc:'محرك الذكاء الاصطناعي يحلل الأنماط ويكتشف الشذوذات ويولّد تنبيهات سريرية ذكية.',
+                careDesc:'يتلقى الأطباء والممرضون إشعارات فورية على هذه اللوحة وعبر الرسائل والبريد.',
+                allPatientsBtn:'جميع المرضى',addPatientBtn:'إضافة مريض',
+                statusStable:'مستقر',statusUnstable:'غير مستقر',statusCritical:'حرج',
+                parentPortalTitle:'بوابة ولي الأمر',parentWelcomePrefix:'أهلاً،',
+                parentBabyVitals:'المؤشرات الحيوية لطفلك',parentDoctorNote:'آخر ملاحظة من الطبيب',
+                parentName:'اسم ولي الأمر',parentBabyId:'رقم هوية الطفل',parentCode:'رمز الوصول العائلي',
+                enterPortal:'الدخول لبوابة ولي الأمر',parentNamePh:'مثال: أحمد الزهراني',parentBabyIdPh:'مثال: NEO-2026-001',parentCodePh:'أدخل رمز الوصول',
+            }
+        };
+
+        function changeLanguage(lang){
+            currentLang=lang;
+            const t=translations[lang];
+            const isAr=lang==='ar';
+
+            // Direction
+            document.body.style.direction=isAr?'rtl':'ltr';
+            document.body.style.fontFamily=isAr?"'Poppins', 'Segoe UI', Tahoma, sans-serif":"'Poppins', sans-serif";
+
+            // Nav items
+            document.querySelectorAll('.nav-text').forEach((el,i)=>{
+                const keys=['dashboard','patients','alerts','settings','about'];
+                el.textContent=t[keys[i]];
+            });
+
+            // Page title
+            document.getElementById('pageTitle').textContent=t[{dashboardContent:'dashboard',patientsContent:'patients',alertsContent:'alerts',settingsContent:'settings',aboutContent:'about'}[document.querySelector('.page.active')?.id]||'dashboard'];
+
+            // Header search
+            document.getElementById('patientSearch').placeholder=t.patientSearch;
+
+            // Dashboard
+            document.getElementById('searchPatientTitle').textContent=t.searchPatient;
+            document.getElementById('searchBtnText').textContent=t.search;
+            document.getElementById('dashboardPatientId').placeholder=t.searchPlaceholder;
+            document.getElementById('currentVitalsTitle').textContent=t.currentVitals;
+            document.getElementById('resultChartTitle').textContent=t.vitalChart;
+            document.getElementById('recentAlertsTitle').textContent=t.recentAlerts;
+
+            // Dashboard placeholder
+            const placeholder=document.getElementById('dashPlaceholder');
+            if(placeholder){
+                const p=placeholder.querySelector('p');
+                if(p) p.textContent=t.searchHint;
+            }
+
+            // Vital card labels
+            const vitalLabels=document.querySelectorAll('.vital-card .vital-label');
+            const vl=[t.heartRate,t.spo2,t.respRate,t.ecg];
+            vitalLabels.forEach((el,i)=>{if(vl[i])el.textContent=vl[i];});
+
+            // Doctor notes title
+            document.querySelectorAll('.dashboard-content').forEach(dc=>{
+                dc.querySelectorAll('h4').forEach(h=>{
+                    if(h.textContent.includes("Doctor's Notes")||h.textContent.includes('ملاحظات الطبيب'))
+                        h.innerHTML='<i class="fas fa-stethoscope" style="color:var(--accent-teal);margin-'+(isAr?'left':'right')+':8px"></i> '+t.doctorNotes;
+                });
+            });
+
+            // Patients page
+            document.getElementById('allPatientsTitle').textContent=t.allPatients;
+            document.getElementById('addPatientBtn').textContent=t.addPatient;
+            document.getElementById('readingsTitle').textContent=t.readings;
+            document.getElementById('historyTitle').textContent=t.history;
+
+            // Alerts page
+            document.getElementById('alertHistoryTitle').textContent=t.alertHistory;
+
+            // Settings — Appearance
+            document.getElementById('appearanceTitle').textContent=t.appearance;
+            document.getElementById('darkModeTitle').textContent=t.darkMode;
+            document.getElementById('darkModeDesc').textContent=t.darkModeDesc;
+            document.getElementById('languageTitle').textContent=t.language;
+            document.getElementById('languageDesc').textContent=t.languageDesc;
+            document.getElementById('settingsTitle').textContent=t.settings;
+            document.getElementById('fontSizeLabel').textContent=t.currentSize+' '+[t.normal,t.large,t.xlarge][fontLevel];
+
+            // Settings — Notifications
+            document.getElementById('notificationsTitle').textContent=t.notifications;
+            document.getElementById('emailAlertTitle').textContent=t.emailAlert;
+            document.getElementById('emailAlertDesc').textContent=t.emailAlertDesc;
+            document.getElementById('soundAlertTitle').textContent=t.soundAlert;
+            document.getElementById('soundAlertDesc').textContent=t.soundAlertDesc;
+
+            // Settings — Account
+            document.getElementById('accountTitle').textContent=t.account;
+            document.getElementById('profileTitle').textContent=t.profile;
+            document.getElementById('profileDesc').textContent=t.profileDesc;
+            document.getElementById('logoutTitle').textContent=t.logout;
+            document.getElementById('logoutDesc').textContent=t.logoutDesc;
+
+            // About page
+            document.getElementById('missionTitle').textContent=t.mission;
+            document.getElementById('missionDesc').textContent=t.missionDesc;
+            document.getElementById('visionTitle').textContent=t.vision;
+            document.getElementById('visionDesc').textContent=t.visionDesc;
+            document.getElementById('valuesTitle').textContent=t.values;
+            document.getElementById('valuesDesc').textContent=t.valuesDesc;
+            document.getElementById('teamTitle').innerHTML='<i class="fas fa-users" style="color:var(--accent-teal)"></i> '+t.team;
+            document.getElementById('aboutDesc').textContent=t.aboutDesc;
+
+            // Login page
+            document.getElementById('loginDesc').textContent=t.loginDesc;
+            document.getElementById('doctorLabel').textContent=t.doctor;
+            document.getElementById('nurseLabel').textContent=t.nurse;
+            document.getElementById('usernameLabel').textContent=t.username;
+            document.getElementById('passwordLabel').textContent=t.password;
+            document.getElementById('babyIdLabel').textContent=t.babyId;
+            document.getElementById('rememberLabel').textContent=t.remember;
+            document.getElementById('forgotLabel').textContent=t.forgot;
+            document.getElementById('signInLabel').textContent=t.signIn;
+
+            // Settings — remaining cards
+            document.getElementById('compactViewTitle').textContent=t.compactView;
+            document.getElementById('compactViewDesc').textContent=t.compactDesc;
+            document.getElementById('fontSizeTitle').textContent=t.fontSize;
+            document.getElementById('fontSizeLabel').textContent=t.currentSize+' '+[t.normal,t.large,t.xlarge][fontLevel];
+            document.getElementById('smsAlertTitle').textContent=t.smsAlert;
+            document.getElementById('smsAlertDesc').textContent=t.smsAlertDesc;
+            document.getElementById('criticalOnlyTitle').textContent=t.criticalOnly;
+            document.getElementById('criticalOnlyDesc').textContent=t.criticalOnlyDesc;
+            document.getElementById('alertFreqTitle').textContent=t.alertFreq;
+            document.getElementById('alertFreqDesc').textContent=t.alertFreqDesc;
+            document.getElementById('securityTitle').textContent=' '+t.security;
+            document.getElementById('twoFATitle').textContent=t.twoFA;
+            document.getElementById('twoFADesc').textContent=t.twoFADesc;
+            document.getElementById('autoLogoutTitle').textContent=t.autoLogout;
+            document.getElementById('autoLogoutDesc').textContent=t.autoLogoutDesc;
+            document.getElementById('loginHistoryTitle').textContent=t.loginHistory;
+            document.getElementById('loginHistoryDesc').textContent=t.loginHistoryDesc;
+            document.getElementById('changePasswordTitle').textContent=t.changePassword;
+            document.getElementById('changePasswordDesc').textContent=t.changePasswordDesc;
+            document.getElementById('activeSessionsTitle').textContent=t.activeSessions;
+            document.getElementById('activeSessionsDesc').textContent=t.activeSessionsDesc;
+            document.getElementById('privacyTitle').textContent=' '+t.privacy;
+            document.getElementById('encryptionTitle').textContent=t.encryption;
+            document.getElementById('encryptionDesc').textContent=t.encryptionDesc;
+            document.getElementById('auditLogTitle').textContent=t.auditLog;
+            document.getElementById('auditLogDesc').textContent=t.auditLogDesc;
+            document.getElementById('dataSharingTitle').textContent=t.dataSharing;
+            document.getElementById('dataSharingDesc').textContent=t.dataSharingDesc;
+            document.getElementById('screenLockTitle').textContent=t.screenLock;
+            document.getElementById('screenLockDesc').textContent=t.screenLockDesc;
+            document.getElementById('hipaaTitle').textContent=t.hipaa;
+            document.getElementById('hipaaDesc').textContent=t.hipaaDesc;
+            document.getElementById('accountTitle').textContent=' '+t.account;
+            document.getElementById('emailAddressTitle').textContent=t.emailAddress;
+            document.getElementById('linkedDevicesTitle').textContent=t.linkedDevices;
+            document.getElementById('linkedDevicesDesc').textContent=t.linkedDevicesDesc;
+            document.getElementById('logoutBtnText').textContent=t.logout;
+            document.getElementById('dataBackupTitle').textContent=' '+t.dataBackup;
+            document.getElementById('autoBackupTitle').textContent=t.autoBackup;
+            document.getElementById('autoBackupDesc').textContent=t.autoBackupDesc;
+            document.getElementById('exportReportsTitle').textContent=t.exportReports;
+            document.getElementById('exportDesc').textContent=t.exportDesc;
+            document.getElementById('retentionTitle').textContent=t.retention;
+            document.getElementById('retentionDesc').textContent=t.retentionDesc;
+            document.getElementById('lastBackupTitle').textContent=t.lastBackup;
+            document.getElementById('lastBackupVal').textContent=t.lastBackupVal;
+            document.getElementById('activeLabel').textContent=isAr?'نشط':'Active';
+            document.getElementById('syncedLabel').textContent=t.synced;
+            document.getElementById('viewHistoryBtn').textContent=t.viewBtn;
+            document.getElementById('changePwdBtn').textContent=t.changeBtn;
+            document.getElementById('manageSessionsBtn').textContent=t.manageBtn;
+            document.getElementById('editProfileBtn').textContent=t.editBtn;
+            document.getElementById('updateEmailBtn').textContent=t.updateBtn;
+            document.getElementById('manageDevicesBtn').textContent=t.manageBtn;
+            document.getElementById('exportBtn').textContent=t.exportBtn;
+            document.getElementById('addModalTitle').textContent=t.addModal;
+            document.getElementById('nameLabel').textContent=t.name;
+            document.getElementById('ageLabel').textContent=t.age;
+            document.getElementById('weightLabel').textContent=t.weight;
+            document.getElementById('genderLabel').textContent=t.gender;
+            document.getElementById('cancelBtn').textContent=t.cancel;
+            document.getElementById('saveBtn').innerHTML='<i class="fas fa-save" style="margin-'+(isAr?'left':'right')+':6px"></i>'+t.save;
+
+            // Notifications dropdown header
+            document.getElementById('notifHeader').textContent=t.notif;
+
+            // Patient table headers (re-render keeps English; update headers directly)
+            const ths=document.querySelectorAll('#patientsContent .data-table th');
+            const thKeys=['ID',t.name,t.age,t.heartRate,t.spo2,'RR','Status'];
+            ths.forEach((th,i)=>{if(thKeys[i])th.textContent=thKeys[i];});
+
+            // Readings table headers
+            const rths=document.querySelectorAll('.readings-table th');
+            const rkeys=[t.time,t.hr,t.spo2,t.rr,t.ecg];
+            rths.forEach((th,i)=>{if(rkeys[i])th.textContent=rkeys[i];});
+
+            // Parent portal login labels
+            try {
+                document.querySelectorAll('#parentFields label').forEach((el,i)=>{
+                    const labels=[t.parentName,t.parentBabyId,t.parentCode];
+                    if(labels[i])el.textContent=labels[i];
+                });
+                document.querySelector('#parentFields button span').textContent=t.enterPortal;
+                document.getElementById('parentName').placeholder=t.parentNamePh;
+                document.getElementById('parentBabyId').placeholder=t.parentBabyIdPh;
+                document.getElementById('parentCode').placeholder=t.parentCodePh;
+            } catch(e){}
+
+            // About stats labels
+            try {
+                const statLabels=document.querySelectorAll('.about-hero .tagline + p + div > div .text-gray');
+                // handled by innerHTML below if needed
+            } catch(e){}
+
+            // Re-render patient names in current language
+            renderTable();
+            selectPatient(currentPatient);
+            updatePatientNameSpans();
+        }
+        
+        function toggleDarkMode(){
+            isDarkMode=!isDarkMode;
+            document.body.classList.toggle('dark-mode',isDarkMode);
+            document.getElementById('darkModeToggle').checked=isDarkMode;
+            document.getElementById('darkModeIcon').className=isDarkMode?'fas fa-sun':'fas fa-moon';
+        }
+        
+        function renderTable(){
+            document.getElementById('patientsTableBody').innerHTML=patients.map((p,i)=>`<tr onclick="selectPatient(${i})"><td>${p.id}</td><td>${pName(p)}</td><td>${p.age}</td><td>${p.hr} bpm</td><td>${p.spo2}%</td><td>${p.rr}/min</td><td><span class="status-badge ${p.status}">${p.status}</span></td></tr>`).join('');
+        }
+        
+        function selectPatient(i){
+            currentPatient=i;
+            const p=patients[i];
+            document.getElementById('detailName').innerHTML=`${pName(p)} <span class="status-badge ${p.status}">${p.status}</span>`;
+            document.getElementById('detailId').textContent='ID: '+p.id;
+            document.getElementById('detailInfo').innerHTML=`<div class="patient-info-item"><label>Age</label><span>${p.age}</span></div><div class="patient-info-item"><label>Weight</label><span>${p.weight}</span></div><div class="patient-info-item"><label>Gender</label><span>${p.gender}</span></div><div class="patient-info-item"><label>ECG</label><span>${p.ecg}</span></div>`;
+            document.getElementById('detailVitals').innerHTML=`<div class="vital-mini hr"><div class="vital-mini-label">HR</div><div class="vital-mini-value">${p.hr} bpm</div></div><div class="vital-mini spo2"><div class="vital-mini-label">SpO2</div><div class="vital-mini-value">${p.spo2}%</div></div><div class="vital-mini rr"><div class="vital-mini-label">RR</div><div class="vital-mini-value">${p.rr}/min</div></div><div class="vital-mini ecg"><div class="vital-mini-label">ECG</div><div class="vital-mini-value">${p.ecg}</div></div>`;
+            renderReadings();
+            updateChart(p);
+            document.getElementById('patientDetailSection').scrollIntoView({behavior:'smooth'});
+        }
+        
+        function setTimeFilter(btn,filter){
+            currentTimeFilter=filter;
+            document.querySelectorAll('.time-filter button').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            renderReadings();
+            updateChart(patients[currentPatient]);
+        }
+        
+        function renderReadings(){
+            const p=patients[currentPatient];
+            const data=currentTimeFilter==='24h'?p.readings24h:p.readings2m;
+            const timeLabel=currentTimeFilter==='24h'?'Time':'Day';
+            document.getElementById('readingsTableBody').innerHTML=data.map(r=>`<tr><td>${r.time||r.day}</td><td>${r.hr} bpm</td><td>${r.spo2}%</td><td>${r.rr}/min</td><td>${r.ecg}</td></tr>`).join('');
+        }
+        
+        function updateChart(p){
+            const data=currentTimeFilter==='24h'?p.readings24h:p.readings2m;
+            const labels=data.map(r=>r.time||r.day);
+            const ctx=document.getElementById('patientHistoryChart').getContext('2d');
+            if(patientChart)patientChart.destroy();
+            patientChart=new Chart(ctx,{type:'line',data:{labels:labels,datasets:[{label:'HR',data:data.map(r=>r.hr),borderColor:'#f44336',backgroundColor:'rgba(244,67,54,0.1)',tension:0.4,fill:true},{label:'SpO2',data:data.map(r=>r.spo2),borderColor:'#26a69a',backgroundColor:'rgba(38,166,154,0.1)',tension:0.4,fill:true},{label:'RR',data:data.map(r=>r.rr),borderColor:'#7c4dff',backgroundColor:'rgba(124,77,255,0.1)',tension:0.4,fill:true},{label:'ECG',data:data.map(r=>r.ecg),borderColor:'#ff9800',backgroundColor:'rgba(255,152,0,0.1)',tension:0.4,fill:true}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{color:'rgba(255,255,255,0.7)'},grid:{color:'rgba(255,255,255,0.1)'}},x:{ticks:{color:'rgba(255,255,255,0.7)',maxTicksLimit:8},grid:{color:'rgba(255,255,255,0.1)'}}}}});
+        }
+        
+        function initDashboardChart(){
+            const p=patients[0];
+            const ctx=document.getElementById('dashboardPatientChart').getContext('2d');
+            if(dashChart)dashChart.destroy();
+            dashChart=new Chart(ctx,{type:'line',data:{labels:p.readings24h.map(r=>r.time),datasets:[{label:'HR',data:p.readings24h.map(r=>r.hr),borderColor:'#f44336',tension:0.4,fill:false,borderWidth:2},{label:'SpO2',data:p.readings24h.map(r=>r.spo2),borderColor:'#26a69a',tension:0.4,fill:false,borderWidth:2},{label:'RR',data:p.readings24h.map(r=>r.rr),borderColor:'#7c4dff',tension:0.4,fill:false,borderWidth:2},{label:'ECG',data:p.readings24h.map(r=>r.ecg),borderColor:'#ff9800',tension:0.4,fill:false,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,animation:{duration:1000},plugins:{legend:{labels:{color:'rgba(255,255,255,0.8)',font:{size:11}}}},scales:{y:{ticks:{color:'rgba(255,255,255,0.7)'},grid:{color:'rgba(255,255,255,0.1)'}},x:{ticks:{color:'rgba(255,255,255,0.7)',maxTicksLimit:6},grid:{color:'rgba(255,255,255,0.1)'}}}}}); 
+        }
+        
+        function searchPatientById(){
+            const id=document.getElementById('dashboardPatientId').value.trim().toUpperCase();
+            const p=patients.find(pt=>pt.id.toUpperCase()===id);
+            if(p){
+                document.getElementById('dashPlaceholder').style.display='none';
+                document.getElementById('dashPatientData').style.display='block';
+                document.getElementById('dashVitalHR').textContent=p.hr+' bpm';
+                document.getElementById('dashVitalSPO2').textContent=p.spo2+'%';
+                document.getElementById('dashVitalRR').textContent=p.rr+'/min';
+                document.getElementById('dashVitalECG').textContent=p.ecg;
+                document.getElementById('resultPatientName').textContent=pName(p);
+                document.getElementById('resultPatientId').textContent=p.id+' • '+p.status;
+                const ctx=document.getElementById('dashboardPatientChart').getContext('2d');
+                if(dashChart)dashChart.destroy();
+                dashChart=new Chart(ctx,{type:'line',data:{labels:p.readings24h.map(r=>r.time),datasets:[{label:'HR',data:p.readings24h.map(r=>r.hr),borderColor:'#f44336',tension:0.4,fill:false,borderWidth:2},{label:'SpO2',data:p.readings24h.map(r=>r.spo2),borderColor:'#26a69a',tension:0.4,fill:false,borderWidth:2},{label:'RR',data:p.readings24h.map(r=>r.rr),borderColor:'#7c4dff',tension:0.4,fill:false,borderWidth:2},{label:'ECG',data:p.readings24h.map(r=>r.ecg),borderColor:'#ff9800',tension:0.4,fill:false,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'rgba(255,255,255,0.8)',font:{size:11}}}},scales:{y:{ticks:{color:'rgba(255,255,255,0.7)'},grid:{color:'rgba(255,255,255,0.1)'}},x:{ticks:{color:'rgba(255,255,255,0.7)',maxTicksLimit:6},grid:{color:'rgba(255,255,255,0.1)'}}}}});
+            }else{
+                alert('Patient not found!');
+                document.getElementById('dashPatientData').style.display='none';
+                document.getElementById('dashPlaceholder').style.display='block';
+            }
+        }
+        
+        function searchPatient(){
+            const q=document.getElementById('patientSearch').value.toLowerCase().trim();
+            const res=document.getElementById('searchResults');
+            if(!q){res.classList.remove('show');return;}
+            const found=patients.filter(p=>p.id.toLowerCase().includes(q)||p.nameEn.toLowerCase().includes(q)||p.nameAr.includes(q));
+            if(found.length){
+                res.innerHTML=found.map((p,i)=>`<div class="search-result-item" onclick="showPage('patients');selectPatient(${patients.indexOf(p)});"><div class="patient-avatar-small" style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#26a69a,#7c4dff);display:flex;align-items:center;justify-content:center;color:white"><i class="fas fa-baby"></i></div><div><h4 style="font-size:0.9rem;color:var(--text-dark)">${pName(p)}</h4><p style="font-size:0.75rem;color:var(--text-secondary)">${p.id}</p></div><span class="status-badge ${p.status}" style="margin-left:auto">${p.status}</span></div>`).join('');
+            }else{
+                res.innerHTML='<div style="padding:20px;text-align:center;color:var(--text-secondary)">No patients found</div>';
+            }
+            res.classList.add('show');
+        }
+        
+        function openAddModal(){document.getElementById('addPatientModal').classList.add('show');}
+        function closeAddModal(){document.getElementById('addPatientModal').classList.remove('show');}
+        function addPatient(){
+            const name=document.getElementById('newName').value;
+            const age=document.getElementById('newAge').value;
+            const weight=document.getElementById('newWeight').value;
+            const gender=document.getElementById('newGender').value;
+            if(!name||!age||!weight){alert('Please fill all fields');return;}
+            const newId='NEO-2026-'+String(patients.length+1).padStart(3,'0');
+            const rand=()=>Array.from({length:5},(_,i)=>({time:(10-i)+':00',hr:Math.floor(Math.random()*30)+120,spo2:Math.floor(Math.random()*8)+92,rr:Math.floor(Math.random()*15)+38,ecg:Math.floor(Math.random()*15)+85}));
+            const rand2m=()=>Array.from({length:60},(_,i)=>({day:'Day '+(60-i),hr:Math.floor(Math.random()*30)+120,spo2:Math.floor(Math.random()*10)+90,rr:Math.floor(Math.random()*20)+35,ecg:Math.floor(Math.random()*20)+75}));
+            patients.push({id:newId,name,age:age+' days',weight:weight+' kg',gender,status:'stable',hr:135,spo2:97,rr:42,ecg:'Normal',readings24h:rand(),readings2m:rand2m()});
+            renderTable();closeAddModal();
+            document.getElementById('newName').value='';document.getElementById('newAge').value='';document.getElementById('newWeight').value='';
+            alert('Patient added: '+newId);
+        }
+        
+        function selectUserType(el,type){
+            document.querySelectorAll('.user-type-btn').forEach(b=>b.classList.remove('active'));
+            el.classList.add('active');
+            if(type==='parent'){
+                document.getElementById('staffFields').style.display='none';
+                document.getElementById('parentFields').style.display='block';
+            } else {
+                document.getElementById('staffFields').style.display='block';
+                document.getElementById('parentFields').style.display='none';
+            }
+        }
+        function togglePassword(){const p=document.getElementById('password');const i=document.querySelector('.toggle-password');if(p.type==='password'){p.type='text';i.classList.replace('fa-eye','fa-eye-slash');}else{p.type='password';i.classList.replace('fa-eye-slash','fa-eye');}}
+        function toggleParentPassword(){const p=document.getElementById('parentCode');p.type=p.type==='password'?'text':'password';}
+
+        function parentLogin(){
+            const name=document.getElementById('parentName').value.trim();
+            const bid=document.getElementById('parentBabyId').value.trim().toUpperCase();
+            const code=document.getElementById('parentCode').value.trim();
+            if(!name||!bid||!code){alert('Please fill all fields');return;}
+            const p=patients.find(pt=>pt.id.toUpperCase()===bid);
+            if(!p){alert('Baby ID not found. Please check the ID and try again.');return;}
+            // Show parent portal
+            document.getElementById('loginPage').style.display='none';
+            document.getElementById('parentPortal').style.display='block';
+            document.getElementById('parentWelcome').textContent='Welcome, '+name;
+            document.getElementById('parentViewName').textContent=pName(p);
+            document.getElementById('parentViewId').textContent='ID: '+p.id+' · Age: '+p.age;
+            const sb=document.getElementById('parentViewStatus');
+            sb.textContent=p.status.charAt(0).toUpperCase()+p.status.slice(1);
+            sb.style.background=p.status==='critical'?'rgba(244,67,54,0.2)':p.status==='unstable'?'rgba(255,152,0,0.2)':'rgba(76,175,80,0.2)';
+            sb.style.color=p.status==='critical'?'#ff6b6b':p.status==='unstable'?'#ff9800':'#4caf50';
+            document.getElementById('pHR').textContent=p.hr+' bpm';
+            document.getElementById('pSPO2').textContent=p.spo2+'%';
+            document.getElementById('pRR').textContent=p.rr+'/min';
+            document.getElementById('pECG').textContent=p.ecg;
+            document.getElementById('parentLastUpdate').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+            // Status banner colour
+            const banner=document.getElementById('parentStatusBanner');
+            const bTitle=document.getElementById('parentStatusTitle');
+            if(p.status==='critical'){banner.style.background='rgba(244,67,54,0.08)';banner.style.borderColor='rgba(244,67,54,0.2)';banner.querySelector('i').style.color='var(--accent-red)';bTitle.textContent='⚠ Critical Status — Care team is actively monitoring';}
+            else if(p.status==='unstable'){banner.style.background='rgba(255,152,0,0.08)';banner.style.borderColor='rgba(255,152,0,0.2)';banner.querySelector('i').style.color='var(--accent-orange)';bTitle.textContent='Attention Required — Condition is being observed';}
+            else{banner.style.background='rgba(76,175,80,0.08)';banner.style.borderColor='rgba(76,175,80,0.2)';banner.querySelector('i').style.color='var(--green-stable)';bTitle.textContent='✓ Stable — Your baby is doing well';}
+        }
+
+        function parentLogout(){
+            document.getElementById('parentPortal').style.display='none';
+            document.getElementById('loginPage').style.display='flex';
+            document.getElementById('parentName').value='';
+            document.getElementById('parentBabyId').value='';
+            document.getElementById('parentCode').value='';
+            // Reset to staff tab
+            document.querySelectorAll('.user-type-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+            document.getElementById('staffFields').style.display='block';
+            document.getElementById('parentFields').style.display='none';
+        }
+
+        // Font size control - applies to entire page
+        let fontLevel=0;
+        const fontSizes=['عادي','كبير','كبير جداً'];
+        const fontSizesEn=['Normal','Large','X-Large'];
+        function changeFontSize(dir){
+            fontLevel=Math.max(0,Math.min(2,fontLevel+dir));
+            const sizes=[14,17,21];
+            document.documentElement.style.fontSize=sizes[fontLevel]+'px';
+            const label=currentLang==='ar'?fontSizes[fontLevel]:fontSizesEn[fontLevel];
+            document.getElementById('fontSizeLabel').textContent=(currentLang==='ar'?'الحجم الحالي: ':'Current: ')+label;
+            showSettingToast((currentLang==='ar'?'حجم الخط: ':'Font size: ')+label);
+        }
+        function login(){const u=document.getElementById('username').value;const p=document.getElementById('password').value;if(!u||!p){alert('Please enter credentials');return;}currentUserPassword=p;currentUserName=u;document.getElementById('userAvatar').textContent=u.substring(0,2).toUpperCase();document.getElementById('loginPage').style.display='none';document.getElementById('dashboardPage').style.display='block';showPage('dashboard');renderTable();selectPatient(0);}
+        function logout(){
+            // Reset dashboard state
+            document.getElementById('dashPatientData').style.display='none';
+            document.getElementById('dashPlaceholder').style.display='block';
+            document.getElementById('dashboardPatientId').value='';
+            if(dashChart){dashChart.destroy();dashChart=null;}
+            isDarkMode=false;
+            document.body.classList.remove('dark-mode');
+            currentUserPassword='';currentUserName='';
+            // Go back to login, starting at dashboard page
+            document.getElementById('dashboardPage').style.display='none';
+            document.getElementById('loginPage').style.display='flex';
+            document.getElementById('username').value='';
+            document.getElementById('password').value='';
+        }
+        function openModal(id){document.getElementById(id).classList.add('show');}
+        function closeModal(id){document.getElementById(id).classList.remove('show');}
+        let toastTimer=null;
+        function showSettingToast(msg,isError){
+            const t=document.getElementById('settingToast');
+            t.style.borderLeftColor=isError?'var(--accent-red)':'var(--accent-teal)';
+            t.querySelector('i').style.color=isError?'var(--accent-red)':'var(--accent-teal)';
+            document.getElementById('toastMsg').textContent=msg;
+            t.style.display='block';
+            if(toastTimer)clearTimeout(toastTimer);
+            toastTimer=setTimeout(()=>{t.style.display='none';},2800);
+        }
+
+        // Track current user password and profile
+        let currentUserPassword='';
+        let currentUserName='';
+
+        // Profile save — updates avatar initials + header name
+        function saveProfile(){
+            const name=document.getElementById('profileNameInput').value.trim();
+            const dept=document.getElementById('profileDeptInput').value.trim();
+            if(!name){showSettingToast('Please enter a name',true);return;}
+            currentUserName=name;
+            // Update avatar initials
+            const initials=name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+            document.getElementById('userAvatar').textContent=initials;
+            // Update page title tooltip / dropdown header
+            const dh=document.querySelector('#profileDropdown .dropdown-header');
+            if(dh)dh.textContent=name+(dept?' · '+dept:'');
+            closeModal('editProfileModal');
+            showSettingToast('Profile updated: '+name);
+        }
+
+        // Password save — validates current password matches login password
+        function savePassword(){
+            const curr=document.getElementById('pwdCurrent').value;
+            const nw=document.getElementById('pwdNew').value;
+            const conf=document.getElementById('pwdConfirm').value;
+            const err=document.getElementById('pwdError');
+            if(!curr||!nw||!conf){err.textContent='Please fill all fields.';err.style.display='block';return;}
+            if(curr!==currentUserPassword){err.textContent='Current password is incorrect.';err.style.display='block';return;}
+            if(nw.length<4){err.textContent='New password must be at least 4 characters.';err.style.display='block';return;}
+            if(nw!==conf){err.textContent='New passwords do not match.';err.style.display='block';return;}
+            currentUserPassword=nw;
+            err.style.display='none';
+            document.getElementById('pwdCurrent').value='';
+            document.getElementById('pwdNew').value='';
+            document.getElementById('pwdConfirm').value='';
+            closeModal('changePasswordModal');
+            showSettingToast('✓ Password changed successfully');
+        }
+
+        // Email save — validates password then updates displayed email
+        function saveEmail(){
+            const email=document.getElementById('newEmailInput').value.trim();
+            const pwd=document.getElementById('emailPwdInput').value;
+            const err=document.getElementById('emailError');
+            if(!email||!pwd){err.textContent='Please fill all fields.';err.style.display='block';return;}
+            if(pwd!==currentUserPassword){err.textContent='Incorrect password.';err.style.display='block';return;}
+            if(!email.includes('@')){err.textContent='Please enter a valid email address.';err.style.display='block';return;}
+            document.getElementById('displayEmail').textContent=email;
+            err.style.display='none';
+            document.getElementById('newEmailInput').value='';
+            document.getElementById('emailPwdInput').value='';
+            closeModal('updateEmailModal');
+            showSettingToast('Email updated to: '+email);
+        }
+        function showPage(id,nav){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id+'Content').classList.add('active');document.querySelectorAll('.nav-link').forEach(l=>{l.classList.remove('active');if(l.getAttribute('onclick')&&l.getAttribute('onclick').includes("'"+id+"'"))l.classList.add('active');});const titles={dashboard:'Dashboard',patients:'Patients',alerts:'Alerts',settings:'Settings',about:'About'};document.getElementById('pageTitle').textContent=translations[currentLang][id]||titles[id];closeDropdowns();document.getElementById('searchResults').classList.remove('show');}
+        function toggleDropdown(id){const d=document.getElementById(id);const show=d.classList.contains('show');closeDropdowns();if(!show)d.classList.add('show');}
+        function closeDropdowns(){document.querySelectorAll('.dropdown-menu').forEach(d=>d.classList.remove('show'));}
+        document.addEventListener('click',e=>{if(!e.target.closest('.dropdown-wrapper'))closeDropdowns();if(!e.target.closest('.search-container'))document.getElementById('searchResults').classList.remove('show');if(e.target.classList.contains('modal')){closeAddModal();['loginHistoryModal','changePasswordModal','sessionsModal','editProfileModal','updateEmailModal','devicesModal'].forEach(id=>{if(e.target.id===id)closeModal(id);});}});
+    </script>
+</body>
+</html>
